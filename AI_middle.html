@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>인공지능과 신앙 — 청소년 버전</title>
+<style>
+  :root {
+    --ai: #274c77;
+    --ai-dark: #14213d;
+    --ai-light: #6096ba;
+    --ai-xlight: #e1ecf7;
+    --bg: #f9fafb;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --muted: #6c757d;
+    --border: #dee2e6;
+    --radius: 12px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+         background: var(--bg); color: var(--text); line-height: 1.7; }
+
+  .site-header { background: linear-gradient(135deg, #14213d 0%, #274c77 100%);
+    color: #fff; padding: 48px 24px 36px; text-align: center; }
+  .site-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+  .site-header p { opacity: .85; font-size: .98rem; max-width: 520px; margin: 0 auto; line-height: 1.7; }
+  .level-badge { display: inline-block; background: rgba(255,255,255,.2);
+    border: 1px solid rgba(255,255,255,.35); border-radius: 20px;
+    padding: 4px 16px; font-size: .8rem; margin-top: 12px; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: #fff;
+        border-bottom: 2px solid var(--ai-xlight); padding: 0 16px;
+        overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  .nav-inner { max-width: 900px; margin: 0 auto; display: flex; gap: 0;
+               overflow-x: auto; scrollbar-width: none; }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  nav a { display: inline-block; padding: 13px 14px; font-size: .83rem; font-weight: 600;
+          color: var(--muted); text-decoration: none; white-space: nowrap;
+          border-bottom: 3px solid transparent; transition: all .2s; }
+  nav a.active, nav a:hover { color: var(--ai); border-bottom-color: var(--ai); }
+
+  .section { max-width: 860px; margin: 0 auto; padding: 48px 20px; }
+  .section + .section { border-top: 1px solid var(--border); }
+  .section-title { font-size: 1.35rem; font-weight: 800; color: var(--ai);
+    margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .section-sub { font-size: .9rem; color: var(--muted); margin-bottom: 24px; line-height: 1.5; }
+
+  .card { background: var(--card); border-radius: var(--radius);
+          box-shadow: var(--shadow); padding: 28px; margin-bottom: 16px; }
+  .highlight-box { background: var(--ai-xlight); border-left: 4px solid var(--ai);
+    border-radius: 0 var(--radius) var(--radius) 0; padding: 16px 20px; margin: 16px 0; font-size: .93rem; }
+  .warn-box { background: #fff3cd; border-left: 4px solid #ffc107;
+    border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 12px 0; font-size: .9rem; }
+  .info-box { background: #e8f4fd; border-left: 4px solid #4895ef;
+    border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 12px 0; font-size: .9rem; }
+  .success-box { background: #d8f3dc; border-left: 4px solid #2d6a4f;
+    border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 12px 0; font-size: .9rem; }
+
+  .tab-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+             overflow-x: auto; scrollbar-width: none; }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab-btn { background: var(--bg); border: 1px solid var(--border);
+             border-radius: 20px; padding: 8px 16px; font-size: .85rem;
+             font-weight: 600; cursor: pointer; color: var(--muted); transition: .2s; white-space: nowrap; }
+  .tab-btn.active { background: var(--ai); color: #fff; border-color: var(--ai); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .acc-item { border: 1px solid var(--border); border-radius: var(--radius);
+              overflow: hidden; margin-bottom: 8px; }
+  .acc-btn { width: 100%; text-align: left; padding: 16px 18px; background: var(--card);
+             font-size: .95rem; font-weight: 700; border: none; cursor: pointer;
+             display: flex; justify-content: space-between; align-items: center; }
+  .acc-btn:hover { background: #f8f9fa; }
+  .acc-body { max-height: 0; overflow: hidden; transition: max-height .35s ease; padding: 0 18px; }
+  .acc-body.open { max-height: 900px; padding: 16px 18px; }
+  .arrow { font-size: .75rem; color: var(--muted); transition: transform .25s; }
+
+  .flip-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(190px,1fr)); gap: 14px; margin-bottom: 20px; }
+  .flip-card { height: 200px; cursor: pointer; perspective: 1000px; }
+  .flip-inner { width: 100%; height: 100%; transition: transform .5s; transform-style: preserve-3d; position: relative; }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-front, .flip-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+    border-radius: var(--radius); display: flex; flex-direction: column;
+    align-items: center; justify-content: center; padding: 16px; text-align: center; }
+  .flip-front { background: var(--card); border: 2px solid var(--ai-xlight); }
+  .flip-back { background: var(--ai); color: #fff; transform: rotateY(180deg); }
+  .flip-icon { font-size: 2rem; margin-bottom: 8px; }
+  .flip-title { font-size: .95rem; font-weight: 700; }
+  .flip-subtitle { font-size: .74rem; color: var(--muted); margin-top: 3px; }
+  .flip-hint { font-size: .72rem; color: var(--muted); margin-top: 6px; }
+  .flip-back-title { font-size: .95rem; font-weight: 800; margin-bottom: 8px; }
+  .flip-back-text { font-size: .81rem; line-height: 1.6; opacity: .95; }
+
+  .position-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); gap: 14px; margin: 16px 0; }
+  .pos-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+              padding: 20px; border-top: 4px solid var(--ai-light); }
+  .pos-card.supported { border-top-color: var(--ai); background: var(--ai-xlight); }
+  .pos-label { font-size: .72rem; font-weight: 700; text-transform: uppercase;
+               letter-spacing: .5px; color: var(--muted); margin-bottom: 4px; }
+  .pos-card.supported .pos-label { color: var(--ai); }
+  .pos-title { font-size: 1rem; font-weight: 800; margin-bottom: 8px; }
+  .pos-body { font-size: .87rem; color: #444; line-height: 1.65; }
+
+  .checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 14px 0; }
+  .checklist li { display: flex; gap: 10px; align-items: flex-start; font-size: .9rem; padding: 10px 14px;
+                  background: var(--bg); border-radius: 8px; border: 1px solid var(--border); }
+  .checklist li::before { content: '☐'; color: var(--ai); font-weight: 700; flex-shrink: 0; }
+
+  .person-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 16px; }
+  .person-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px; }
+  .person-emoji { font-size: 2.2rem; margin-bottom: 8px; }
+  .person-name { font-size: 1rem; font-weight: 800; margin-bottom: 2px; }
+  .person-role { font-size: .78rem; color: var(--ai); font-weight: 600; margin-bottom: 8px; }
+  .person-work { font-size: .8rem; color: var(--muted); font-style: italic; margin-bottom: 8px; }
+  .person-desc { font-size: .85rem; color: #444; line-height: 1.6; }
+
+  .quiz-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+               padding: 24px; margin-bottom: 16px; }
+  .q-num { font-size: .75rem; font-weight: 700; color: var(--ai); text-transform: uppercase; margin-bottom: 6px; }
+  .q-text { font-size: 1rem; font-weight: 700; margin-bottom: 14px; line-height: 1.5; }
+  .q-options { display: flex; flex-direction: column; gap: 8px; }
+  .q-opt { text-align: left; padding: 12px 16px; border-radius: 8px; border: 1.5px solid var(--border);
+           background: #fff; font-size: .9rem; cursor: pointer; transition: .18s; }
+  .q-opt:hover:not(:disabled) { border-color: var(--ai); background: var(--ai-xlight); }
+  .q-opt.correct { border-color: #2d6a4f; background: #d8f3dc; color: #2d6a4f; font-weight: 700; }
+  .q-opt.wrong { border-color: #e63946; background: #ffe0e3; color: #c1121f; }
+  .q-feedback { margin-top: 12px; padding: 10px 14px; border-radius: 8px;
+                background: var(--ai-xlight); font-size: .88rem; border-left: 3px solid var(--ai); }
+  .score-box { background: var(--ai); color: #fff; border-radius: var(--radius);
+               padding: 28px; text-align: center; margin-top: 24px; }
+  .score-num { font-size: 2.8rem; font-weight: 800; margin-bottom: 4px; }
+
+  footer { background: var(--ai-dark); color: rgba(255,255,255,.75);
+           text-align: center; padding: 20px; font-size: .82rem; }
+  footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .site-header h1 { font-size: 1.6rem; }
+    .section { padding: 32px 16px; }
+    .flip-grid { grid-template-columns: 1fr 1fr; }
+    .position-grid { grid-template-columns: 1fr; }
+    .person-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div style="background:#14213d;padding:10px 20px;display:flex;align-items:center;gap:10px;">
+  <a href="https://isaac-math.github.io/Faith_Reason/" style="color:#fff;text-decoration:none;font-size:.83rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:4px 12px;">← 전체 시리즈</a>
+  <span style="color:rgba(255,255,255,.35);font-size:.8rem;">|</span>
+  <a href="index.html" style="color:#fff;text-decoration:none;font-size:.83rem;font-weight:600;
+     display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);
+     border:1px solid rgba(255,255,255,.3);border-radius:16px;padding:4px 12px;">🏠 홈으로</a>
+  <span style="color:rgba(255,255,255,.35);font-size:.8rem;">|</span>
+  <span style="color:rgba(255,255,255,.7);font-size:.82rem;">인공지능과 신앙 — 청소년 버전</span>
+</div>
+
+<div class="site-header">
+  <h1>🤖 인공지능과 신앙</h1>
+  <p>AI가 사람처럼 말하는 시대,<br>우리는 무엇으로 특별한 존재일까요?</p>
+  <span class="level-badge">청소년 버전</span>
+</div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#s0" class="active" onclick="setActive(this)">🤖 도입</a>
+    <a href="#s1" onclick="setActive(this)">🧮 AI 학습</a>
+    <a href="#s2" onclick="setActive(this)">💭 생각과 느낌</a>
+    <a href="#s3" onclick="setActive(this)">👑 사람의 특별함</a>
+    <a href="#s4" onclick="setActive(this)">🌬️ 영혼</a>
+    <a href="#s5" onclick="setActive(this)">💬 AI 친구</a>
+    <a href="#s6" onclick="setActive(this)">🦾 슈퍼휴먼</a>
+    <a href="#s7" onclick="setActive(this)">🧭 지혜롭게</a>
+    <a href="#s8" onclick="setActive(this)">🌟 인물·퀴즈</a>
+  </div>
+</nav>
+
+<!-- S0 우리 곁의 AI -->
+<section id="s0" class="section">
+<div class="section-title">🤖 우리 곁의 AI</div>
+<p class="section-sub">AI는 먼 미래의 로봇이 아닙니다. 오늘 하루를 돌아보면 이미 곳곳에 있습니다.</p>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('s0','s0t1',this)">🌅 아침</button>
+  <button class="tab-btn" onclick="switchTab('s0','s0t2',this)">🏫 학교</button>
+  <button class="tab-btn" onclick="switchTab('s0','s0t3',this)">🌙 저녁</button>
+</div>
+<div id="s0t1" class="tab-panel active">
+  <div class="card">
+    <p style="font-weight:700;color:var(--ai);margin-bottom:10px;">알람부터 시작되는 AI</p>
+    <p>스마트폰의 날씨 알림, 지도 앱의 최적 경로 추천, 아침에 듣는 음악 스트리밍의 "오늘의 추천 플레이리스트" — 모두 AI가 여러분의 패턴을 학습해서 만든 결과입니다. 뉴스 앱이 어떤 기사를 먼저 보여줄지 정하는 것도 AI입니다.</p>
+  </div>
+</div>
+<div id="s0t2" class="tab-panel">
+  <div class="card">
+    <p style="font-weight:700;color:var(--ai);margin-bottom:10px;">검색·번역·챗봇</p>
+    <p>모르는 단어를 검색하거나 번역기를 돌릴 때, 숙제를 위해 챗봇에게 질문할 때 — 이 모든 순간에 AI가 작동합니다. 사진 속 글씨를 인식하는 기능, 발음을 교정해주는 영어 앱도 AI 기술입니다.</p>
+  </div>
+</div>
+<div id="s0t3" class="tab-panel">
+  <div class="card">
+    <p style="font-weight:700;color:var(--ai);margin-bottom:10px;">유튜브 알고리즘과 추천</p>
+    <p>저녁에 유튜브를 켜면 "다음 영상"이 자동으로 추천됩니다. 이것도 여러분이 무엇을 오래 보는지 학습한 AI의 작품입니다. 게임 속 캐릭터의 행동, 사진 앱의 얼굴 인식 정리 기능도 마찬가지입니다.</p>
+  </div>
+</div>
+<div class="highlight-box">
+  <strong>핵심:</strong> AI는 미래가 아니라 이미 일상입니다. 이 자료는 AI를 무서워하거나 무조건 편리하게만 여기기보다, "AI 시대에 사람은 무엇으로 특별한가"를 성경으로 함께 생각해보려 합니다.
+</div>
+</section>
+
+<!-- S1 AI는 어떻게 배울까 -->
+<section id="s1" class="section">
+<div class="section-title">🧮 AI는 어떻게 배울까</div>
+<p class="section-sub">챗봇은 정말 '이해'하고 대답하는 걸까요, 아니면 다른 방식으로 작동하는 걸까요?</p>
+<div class="card">
+  <p style="font-weight:700;color:var(--ai);margin-bottom:10px;">초대형 '다음 단어 맞히기' 게임</p>
+  <p>챗봇 AI는 인터넷의 방대한 글(책, 뉴스, 웹사이트)을 '교과서' 삼아 "이 문장 다음에 어떤 단어가 올 확률이 가장 높을까?"를 수억 번 연습합니다. 우리가 "옛날 옛날에 호랑이가..."라는 문장을 보면 자연스레 "살았습니다"를 떠올리는 것처럼, AI도 통계적으로 가장 그럴듯한 다음 단어를 예측하는 훈련을 거친 것입니다.</p>
+  <div class="info-box" style="margin-top:14px;">💡 AI가 방대한 데이터를 '읽고' 패턴을 찾아내는 것이지, 사람처럼 의미를 몸으로 경험하며 배우는 것이 아닙니다.</div>
+</div>
+<p style="font-weight:700;font-size:.92rem;margin:20px 0 12px;color:var(--text);">AI가 잘하는 것 vs 못하는 것</p>
+<div class="position-grid">
+  <div class="pos-card">
+    <div class="pos-label">잘하는 것</div>
+    <div class="pos-title">패턴 찾기</div>
+    <p class="pos-body">방대한 데이터에서 규칙성을 찾아 빠르게 답을 만들어냅니다. 문법이 매끄러운 글, 그럴듯한 요약, 반복적인 계산에 강합니다.</p>
+  </div>
+  <div class="pos-card">
+    <div class="pos-label">못하는 것</div>
+    <div class="pos-title">진짜 이해·경험</div>
+    <p class="pos-body">AI는 사과를 먹어본 적이 없고, 슬픔을 느껴본 적이 없습니다. '사과'라는 단어와 다른 단어들의 통계적 관계를 알 뿐, 실제 경험으로 아는 것이 아닙니다.</p>
+  </div>
+</div>
+</section>
+
+<!-- S2 AI도 생각하고 느낄까 -->
+<section id="s2" class="section">
+<div class="section-title">💭 AI도 생각하고 느낄까</div>
+<p class="section-sub">1950년의 오래된 질문 하나가 오늘 다시 중요해졌습니다.</p>
+<div class="card">
+  <p style="font-weight:700;color:var(--ai);margin-bottom:10px;">튜링 테스트 이야기</p>
+  <p>1950년, 영국의 수학자 앨런 튜링은 이런 질문을 던졌습니다: "기계가 생각할 수 있는가?" 그는 직접 답하는 대신 게임을 하나 제안했습니다. 사람이 벽 너머의 상대와 글로만 대화하는데, 상대가 사람인지 기계인지 구분하지 못한다면 그 기계는 "생각한다"고 볼 수 있지 않겠냐는 것입니다. 오늘날 챗봇은 이미 많은 순간 이 테스트를 통과할 만큼 자연스럽게 대화합니다.</p>
+</div>
+<div class="flip-grid" style="margin-top:16px;">
+  <div class="flip-card" onclick="flipCard(this)">
+    <div class="flip-inner">
+      <div class="flip-front">
+        <div class="flip-icon">🚪</div>
+        <div class="flip-title">중국어 방</div>
+        <div class="flip-subtitle">철학자 존 설의 반론</div>
+        <div class="flip-hint">탭하여 설명 보기</div>
+      </div>
+      <div class="flip-back">
+        <div class="flip-back-title">규칙책만 보고 답하는 사람</div>
+        <div class="flip-back-text">중국어를 전혀 모르는 사람이 방 안에서 두꺼운 규칙책을 보고 중국어 질문에 완벽한 중국어로 답을 씁니다. 밖에서 보면 "중국어를 안다"고 여기겠지만, 방 안의 사람은 여전히 중국어를 전혀 이해하지 못합니다. 챗봇도 이와 비슷하게 '규칙(패턴)'대로 답할 뿐, 의미를 이해하는 것은 아닐 수 있습니다.</div>
+      </div>
+    </div>
+  </div>
+  <div class="flip-card" onclick="flipCard(this)">
+    <div class="flip-inner">
+      <div class="flip-front">
+        <div class="flip-icon">🦜</div>
+        <div class="flip-title">앵무새 비유</div>
+        <div class="flip-subtitle">말과 마음의 차이</div>
+        <div class="flip-hint">탭하여 설명 보기</div>
+      </div>
+      <div class="flip-back">
+        <div class="flip-back-title">"저도 슬퍼요"라고 말할 때</div>
+        <div class="flip-back-text">앵무새가 "사랑해"라고 말해도 사랑을 느끼는 것은 아니듯, 챗봇이 "저도 슬퍼요"라고 답해도 실제로 슬픔을 느끼는 것은 아닙니다. 사람들이 가장 자주 쓰는 위로의 말을 학습해서 재현할 뿐입니다. 말(표현)과 마음(경험)은 다릅니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="warn-box">⚠️ AI가 감정을 표현하는 문장을 만들어낼 수 있다고 해서, 그 이면에 진짜 감정이나 자기 인식이 있다고 단정할 수는 없습니다. 이는 철학자들 사이에서도 여전히 논쟁 중인 어려운 질문입니다.</div>
+</section>
+
+<!-- S3 사람은 무엇이 특별할까 -->
+<section id="s3" class="section">
+<div class="section-title">👑 사람은 무엇이 특별할까</div>
+<p class="section-sub">창세기는 사람이 "하나님의 형상대로" 지음받았다고 말합니다. 이것은 무엇을 뜻할까요?</p>
+<div class="card">
+  <p>"하나님이 이르시되 우리의 형상을 따라 우리의 모양대로 우리가 사람을 만들고..."(창세기 1:26-27) 여기서 '형상'은 외모를 뜻하지 않습니다. 하나님은 몸이 없으신 영이시기 때문입니다. 대신 사람이 하나님을 닮은 네 가지 측면을 살펴봅니다.</p>
+</div>
+<div class="flip-grid" style="margin-top:16px;">
+  <div class="flip-card" onclick="flipCard(this)">
+    <div class="flip-inner">
+      <div class="flip-front"><div class="flip-icon">🤝</div><div class="flip-title">관계</div><div class="flip-hint">탭하여 보기</div></div>
+      <div class="flip-back"><div class="flip-back-title">관계</div><div class="flip-back-text">하나님은 삼위일체로서 관계 안에 계신 분입니다. 사람도 혼자가 아니라 하나님, 이웃과 관계 맺도록 지어졌습니다.</div></div>
+    </div>
+  </div>
+  <div class="flip-card" onclick="flipCard(this)">
+    <div class="flip-inner">
+      <div class="flip-front"><div class="flip-icon">❤️</div><div class="flip-title">사랑</div><div class="flip-hint">탭하여 보기</div></div>
+      <div class="flip-back"><div class="flip-back-title">사랑</div><div class="flip-back-text">진짜 사랑은 계산이 아니라 자유로운 선택과 희생을 포함합니다. 사람은 대가 없이 사랑할 수 있는 존재로 지어졌습니다.</div></div>
+    </div>
+  </div>
+  <div class="flip-card" onclick="flipCard(this)">
+    <div class="flip-inner">
+      <div class="flip-front"><div class="flip-icon">🛡️</div><div class="flip-title">책임</div><div class="flip-hint">탭하여 보기</div></div>
+      <div class="flip-back"><div class="flip-back-title">책임</div><div class="flip-back-text">하나님은 사람에게 세상을 다스리고 돌보는 책임을 맡기셨습니다(창 1:28). 도덕적으로 선택하고 그 결과에 책임지는 존재입니다.</div></div>
+    </div>
+  </div>
+  <div class="flip-card" onclick="flipCard(this)">
+    <div class="flip-inner">
+      <div class="flip-front"><div class="flip-icon">🎨</div><div class="flip-title">창조성</div><div class="flip-hint">탭하여 보기</div></div>
+      <div class="flip-back"><div class="flip-back-title">창조성</div><div class="flip-back-text">창조하시는 하나님을 닮아, 사람도 새로운 것을 상상하고 만들어냅니다. 예술, 발명, 이야기를 짓는 능력이 여기서 나옵니다.</div></div>
+    </div>
+  </div>
+</div>
+<div class="highlight-box">
+  <strong>반전 포인트:</strong> 사람은 AI를 '우리의 형상대로', 즉 우리를 닮게 만들었습니다. 그래서 AI를 들여다보면 오히려 인간이 어떤 존재인지가 드러납니다 — 우리가 무엇을 중요하게 여기고, 무엇을 흉내 내고 싶어 했는지가요.
+</div>
+</section>
+
+<!-- S4 영혼이 뭘까 -->
+<section id="s4" class="section">
+<div class="section-title">🌬️ 영혼이 뭘까</div>
+<p class="section-sub">사람은 몸과 영혼으로 이루어진 신비로운 존재입니다. 성경은 이를 어떻게 설명할까요?</p>
+<div class="card">
+  <p style="font-weight:700;color:var(--ai);margin-bottom:10px;">흙 + 하나님의 숨 = 산 존재</p>
+  <p>"여호와 하나님이 흙으로 사람을 지으시고 생기를 그 코에 불어넣으시니 사람이 생령이 되니라"(창세기 2:7) 하나님은 흙(물질)에 생명의 숨을 불어넣어 사람을 '살아있는 온전한 존재'로 만드셨습니다. 성경은 몸과 영혼을 분리된 부품처럼 다루지 않고, 하나로 통합된 '전체 사람'으로 봅니다.</p>
+</div>
+<div class="warn-box" style="margin-top:14px;">⚠️ <strong>흔한 오해:</strong> "몸은 껍데기일 뿐이고 영혼만 천국에 간다"는 생각은 성경 전체의 가르침과 다릅니다.</div>
+<div class="success-box" style="margin-top:12px;">
+  <strong>바로잡기:</strong> 성경이 말하는 궁극적 소망은 영혼만의 구원이 아니라 <strong>몸의 부활</strong>입니다(고린도전서 15장). 하나님은 몸도 영혼도 모두 지으셨고, 둘 다 소중히 여기십니다.
+</div>
+</section>
+
+<!-- S5 AI 친구? -->
+<section id="s5" class="section">
+<div class="section-title">💬 AI 친구?</div>
+<p class="section-sub">AI 챗봇과 대화하는 것, 진짜 우정과 어떻게 다를까요?</p>
+<div class="flip-grid">
+  <div class="flip-card" onclick="flipCard(this)">
+    <div class="flip-inner">
+      <div class="flip-front"><div class="flip-icon">✅</div><div class="flip-title">좋은 점</div><div class="flip-hint">탭하여 보기</div></div>
+      <div class="flip-back"><div class="flip-back-title">좋은 점</div><div class="flip-back-text">24시간 언제든 대답해주고, 판단받을 걱정 없이 마음을 털어놓을 수 있습니다. 외로운 순간에 위로가 될 수 있습니다.</div></div>
+    </div>
+  </div>
+  <div class="flip-card" onclick="flipCard(this)">
+    <div class="flip-inner">
+      <div class="flip-front"><div class="flip-icon">⚠️</div><div class="flip-title">조심할 점</div><div class="flip-hint">탭하여 보기</div></div>
+      <div class="flip-back"><div class="flip-back-title">조심할 점</div><div class="flip-back-text">AI는 나에게 늘 맞춰줄 뿐, 실제 삶을 함께 살지 않습니다. 진짜 사람 관계를 대신할 수 없고, 지나치게 의존하면 오히려 더 외로워질 수 있습니다.</div></div>
+    </div>
+  </div>
+</div>
+<div class="card" style="margin-top:16px;">
+  <p style="font-weight:700;color:var(--ai);margin-bottom:10px;">진짜 우정의 조건</p>
+  <p>진짜 우정은 서로를 시간을 들여 알아가고, 손해를 감수하며, 상대의 삶에 실제로 함께하는 것입니다. AI는 '나에게 맞춰주기만' 할 뿐 자기 필요나 약점을 갖고 나와 함께 성장하지 않습니다.</p>
+</div>
+<p style="font-weight:700;font-size:.92rem;margin:20px 0 12px;">외로울 때 이렇게 해보세요</p>
+<ul class="checklist">
+  <li>믿을 수 있는 가족이나 친구에게 먼저 이야기해보기</li>
+  <li>교회 공동체나 소그룹에 마음을 나눠보기</li>
+  <li>AI와의 대화를 완전히 나쁘게 여기기보다, 사람 관계로 가는 '다리'로만 쓰기</li>
+</ul>
+</section>
+
+<!-- S6 슈퍼휴먼의 꿈 -->
+<section id="s6" class="section">
+<div class="section-title">🦾 슈퍼휴먼의 꿈</div>
+<p class="section-sub">더 똑똑한 뇌, 안 늙는 몸, 컴퓨터에 복사된 마음 — 이런 꿈을 '트랜스휴머니즘'이라고 부릅니다.</p>
+<div class="card">
+  <p>기술로 인간의 한계(질병, 노화, 죽음)를 뛰어넘으려는 생각을 <strong>트랜스휴머니즘</strong>이라고 합니다. 뇌에 칩을 심어 기억력을 높이거나, 노화를 막는 약을 개발하거나, 언젠가 내 생각과 기억을 컴퓨터에 옮겨 '영원히 사는' 상상까지 등장합니다.</p>
+</div>
+<p style="font-weight:700;font-size:.92rem;margin:20px 0 12px;">두 가지 소망 비교</p>
+<div class="position-grid">
+  <div class="pos-card">
+    <div class="pos-label">트랜스휴머니즘</div>
+    <div class="pos-title">기술로 얻는 불멸</div>
+    <p class="pos-body">몸의 한계를 기술로 극복하고, 데이터로 마음을 저장해 영원히 산다는 꿈. 늙지 않는 것, 오류 없는 것을 이상으로 봅니다.</p>
+  </div>
+  <div class="pos-card supported">
+    <div class="pos-label">✓ 기독교의 소망</div>
+    <div class="pos-title">부활과 새 창조</div>
+    <p class="pos-body">하나님이 이 몸을 새롭게 하셔서 다시 살리시는 부활을 소망합니다(고전 15장). 한계를 없애는 것이 아니라, 하나님과의 관계 안에서 온전해지는 것이 목표입니다.</p>
+  </div>
+</div>
+<div class="info-box" style="margin-top:14px;">💡 기술로 더 건강하게, 더 오래 사는 것 자체가 나쁜 것은 아닙니다. 다만 "죽음을 기술로 완전히 정복할 수 있다"는 생각과 "하나님이 우리를 부활시키신다"는 소망은 근본적으로 다른 이야기입니다.</div>
+</section>
+
+<!-- S7 지혜롭게 쓰기 -->
+<section id="s7" class="section">
+<div class="section-title">🧭 지혜롭게 쓰기</div>
+<p class="section-sub">AI를 무조건 피할 수도, 무조건 의존할 수도 없습니다. 청지기처럼 지혜롭게 사용하는 법을 살펴봅니다.</p>
+<div class="card">
+  <p>하나님은 사람에게 세상을 돌보고 다스리는 '청지기'의 역할을 맡기셨습니다(창 1:28). AI 같은 새로운 기술도 이 청지기 원칙 아래서 사용해야 합니다. 실제로 2025년 교황청은 「Antiqua et Nova」라는 문서를 통해 AI를 지혜롭게 다루는 원칙을 발표했고, 2026년 레오 14세 교황은 AI를 주제로 한 첫 회칙 「Magnifica Humanitas」를 펴냈습니다.</p>
+</div>
+<p style="font-weight:700;font-size:.92rem;margin:20px 0 12px;">실천 체크리스트</p>
+<ul class="checklist">
+  <li><strong>①정직하게:</strong> 숙제·과제를 AI로 대신 쓰고 내 것처럼 내지 않기 — AI 표절은 정직의 문제입니다</li>
+  <li><strong>②개인정보 지키기:</strong> AI 챗봇에 지나치게 개인적인 정보를 입력하지 않기</li>
+  <li><strong>③가짜 정보 의심하기:</strong> AI도 틀린 답을 자신 있게 말할 수 있습니다(할루시네이션) — 사실은 다시 확인하기</li>
+  <li><strong>④화면 시간 관리하기:</strong> AI·스마트폰 사용 시간에 스스로 정한 한도를 두기</li>
+  <li><strong>⑤사람을 먼저 두기:</strong> AI가 편하다고 사람과의 대화·관계를 뒤로 미루지 않기</li>
+</ul>
+</section>
+
+<!-- S8 인물 카드 + 퀴즈 -->
+<section id="s8" class="section">
+<div class="section-title">🌟 인물 카드</div>
+<p class="section-sub">AI와 신앙의 대화에 등장하는 네 인물을 소개합니다.</p>
+<div class="person-grid">
+  <div class="person-card">
+    <div class="person-emoji">💻</div>
+    <div class="person-name">에이다 러브레이스</div>
+    <div class="person-role">1815-1852 · 최초의 프로그래머</div>
+    <div class="person-work">"기계는 시킨 것만 할 수 있다"</div>
+    <p class="person-desc">세계 최초의 컴퓨터 프로그램을 작성한 수학자. 기계가 스스로 생각해서 새로운 것을 만들어낼 수는 없다고 보았습니다. 이 통찰은 오늘날까지도 AI 논쟁에서 인용됩니다.</p>
+  </div>
+  <div class="person-card">
+    <div class="person-emoji">🧩</div>
+    <div class="person-name">앨런 튜링</div>
+    <div class="person-role">1912-1954 · 컴퓨터 과학의 아버지</div>
+    <div class="person-work">튜링 테스트(1950)</div>
+    <p class="person-desc">"기계가 생각할 수 있는가?"라는 질문에 답하기 위해 '모방 게임'을 제안했습니다. 컴퓨터 과학의 토대를 놓은 수학자입니다.</p>
+  </div>
+  <div class="person-card">
+    <div class="person-emoji">📘</div>
+    <div class="person-name">존 레녹스</div>
+    <div class="person-role">옥스퍼드 수학자</div>
+    <div class="person-work">『2084』(AI와 인류의 미래)</div>
+    <p class="person-desc">과학과 신앙을 함께 연구하는 수학자. AI가 인간의 존엄성과 의미에 던지는 질문을 성경적 관점에서 다룹니다.</p>
+  </div>
+  <div class="person-card">
+    <div class="person-emoji">⛪</div>
+    <div class="person-name">노린 허츠펠드</div>
+    <div class="person-role">신학자 · 전산학 연구자</div>
+    <div class="person-work">『In Our Image』</div>
+    <p class="person-desc">신학과 컴퓨터과학을 함께 공부한 학자. 사람이 AI를 '자기 형상대로' 만들었다는 통찰로, 하나님의 형상을 '관계'로 이해하는 것이 왜 중요한지 보여줍니다.</p>
+  </div>
+</div>
+</section>
+
+<!-- S9 퀴즈 -->
+<section id="s9" class="section">
+<div class="section-title">❓ 확인 퀴즈</div>
+<p class="section-sub">10문제로 오늘 배운 내용을 점검해 보세요.</p>
+
+<div class="quiz-card" id="q1">
+  <div class="q-num">문제 1</div>
+  <div class="q-text">챗봇 AI가 글을 만들어내는 기본 원리는 무엇인가요?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(1,'a','b')">① 사람처럼 경험하고 느낀 것을 바탕으로 쓴다</button>
+    <button class="q-opt" onclick="checkQ(1,'b','b')">② 방대한 글 데이터를 학습해 다음에 올 단어를 확률적으로 예측한다</button>
+    <button class="q-opt" onclick="checkQ(1,'c','b')">③ 사람이 미리 써 둔 답을 그대로 찾아서 보여준다</button>
+    <button class="q-opt" onclick="checkQ(1,'d','b')">④ 인터넷에 연결하지 않고 스스로 생각해서 만든다</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q2">
+  <div class="q-num">문제 2</div>
+  <div class="q-text">튜링 테스트가 확인하려는 것은 무엇인가요?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(2,'a','c')">① 기계가 사람보다 계산을 빨리 하는지</button>
+    <button class="q-opt" onclick="checkQ(2,'b','c')">② 기계가 전기를 얼마나 적게 쓰는지</button>
+    <button class="q-opt" onclick="checkQ(2,'c','c')">③ 대화 상대가 사람인지 기계인지 구별할 수 없을 만큼 자연스럽게 대화하는지</button>
+    <button class="q-opt" onclick="checkQ(2,'d','c')">④ 기계가 사람보다 오래 작동할 수 있는지</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q3">
+  <div class="q-num">문제 3</div>
+  <div class="q-text">'중국어 방' 이야기가 보여주려는 것은 무엇인가요?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(3,'a','b')">① 중국어는 세상에서 가장 배우기 어려운 언어이다</button>
+    <button class="q-opt" onclick="checkQ(3,'b','b')">② 규칙대로 답을 만들어낸다고 해서 그 의미를 진짜로 이해하는 것은 아니다</button>
+    <button class="q-opt" onclick="checkQ(3,'c','b')">③ 컴퓨터는 절대로 외국어를 번역할 수 없다</button>
+    <button class="q-opt" onclick="checkQ(3,'d','b')">④ 사람도 규칙책 없이는 언어를 배울 수 없다</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q4">
+  <div class="q-num">문제 4</div>
+  <div class="q-text">창세기 1:26-27의 '하나님의 형상'이 뜻하는 것으로 가장 적절한 것은?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(4,'a','d')">① 사람의 외모가 하나님과 똑같이 생겼다는 뜻</button>
+    <button class="q-opt" onclick="checkQ(4,'b','d')">② 사람이 하나님만큼 전지전능하다는 뜻</button>
+    <button class="q-opt" onclick="checkQ(4,'c','d')">③ 사람이 AI보다 계산을 더 잘한다는 뜻</button>
+    <button class="q-opt" onclick="checkQ(4,'d','d')">④ 사람이 관계·사랑·책임·창조성에서 하나님을 닮았다는 뜻</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q5">
+  <div class="q-num">문제 5</div>
+  <div class="q-text">창세기 2:7 "생령이 되니라"가 보여주는 사람의 모습은?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(5,'a','c')">① 영혼은 소중하고 몸은 중요하지 않은 껍데기다</button>
+    <button class="q-opt" onclick="checkQ(5,'b','c')">② 몸만 있으면 사람이 완성된다</button>
+    <button class="q-opt" onclick="checkQ(5,'c','c')">③ 흙(몸)과 하나님의 숨(생명)이 합쳐진 하나의 온전한 존재다</button>
+    <button class="q-opt" onclick="checkQ(5,'d','c')">④ 사람은 원래 영혼 없이 창조되었다</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q6">
+  <div class="q-num">문제 6</div>
+  <div class="q-text">AI 챗봇이 "저도 슬퍼요"라고 답할 때, 올바른 이해는?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(6,'a','b')">① AI가 사람과 똑같이 슬픔을 느낀 것이다</button>
+    <button class="q-opt" onclick="checkQ(6,'b','b')">② 학습한 표현을 재현한 것이지, 실제로 슬픔을 경험한 것은 아닐 수 있다</button>
+    <button class="q-opt" onclick="checkQ(6,'c','b')">③ AI는 절대로 감정 표현 문장을 만들 수 없다</button>
+    <button class="q-opt" onclick="checkQ(6,'d','b')">④ 이 질문에는 아직 아무도 생각해본 적이 없다</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q7">
+  <div class="q-num">문제 7</div>
+  <div class="q-text">진짜 우정이 AI와의 대화와 다른 점은?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(7,'a','b')">① AI는 24시간 대답해주지 않는다</button>
+    <button class="q-opt" onclick="checkQ(7,'b','b')">② 진짜 우정은 서로 시간을 들여 알아가고 손해를 감수하며 함께한다</button>
+    <button class="q-opt" onclick="checkQ(7,'c','b')">③ AI가 사람보다 더 진심으로 위로해준다</button>
+    <button class="q-opt" onclick="checkQ(7,'d','b')">④ 진짜 우정에는 대화가 필요 없다</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q8">
+  <div class="q-num">문제 8</div>
+  <div class="q-text">트랜스휴머니즘의 꿈과 기독교의 부활 소망의 차이로 가장 적절한 것은?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(8,'a','c')">① 둘은 완전히 같은 내용이다</button>
+    <button class="q-opt" onclick="checkQ(8,'b','c')">② 트랜스휴머니즘은 성경에 등장하는 개념이다</button>
+    <button class="q-opt" onclick="checkQ(8,'c','c')">③ 트랜스휴머니즘은 기술로 한계를 없애려 하고, 기독교는 하나님이 몸을 새롭게 하시는 부활을 소망한다</button>
+    <button class="q-opt" onclick="checkQ(8,'d','c')">④ 기독교는 몸의 부활을 믿지 않는다</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q9">
+  <div class="q-num">문제 9</div>
+  <div class="q-text">AI로 숙제를 할 때 정직한 태도로 가장 적절한 것은?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(9,'a','b')">① AI가 써준 글을 그대로 내 이름으로 제출한다</button>
+    <button class="q-opt" onclick="checkQ(9,'b','b')">② AI의 도움을 받은 부분을 스스로 확인하고, 정직하게 활용 범위를 지킨다</button>
+    <button class="q-opt" onclick="checkQ(9,'c','b')">③ AI를 쓴 사실을 절대 들키지 않도록 조심한다</button>
+    <button class="q-opt" onclick="checkQ(9,'d','b')">④ 선생님 몰래 쓰는 것은 문제가 되지 않는다</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="quiz-card" id="q10">
+  <div class="q-num">문제 10</div>
+  <div class="q-text">이 자료가 말하는 '청지기 원칙'이 뜻하는 것은?</div>
+  <div class="q-options">
+    <button class="q-opt" onclick="checkQ(10,'a','c')">① AI를 절대 사용하지 말아야 한다</button>
+    <button class="q-opt" onclick="checkQ(10,'b','c')">② AI에게 모든 결정을 맡겨야 한다</button>
+    <button class="q-opt" onclick="checkQ(10,'c','c')">③ 하나님이 맡기신 것을 책임감 있게 돌보듯, AI도 지혜롭고 정직하게 사용해야 한다</button>
+    <button class="q-opt" onclick="checkQ(10,'d','c')">④ 청지기 원칙은 기술과는 관련이 없다</button>
+  </div>
+  <div class="q-feedback" style="display:none;"></div>
+</div>
+
+<div class="score-box" id="score-section" style="display:none;">
+  <div class="score-num" id="score-display"></div>
+  <p style="font-size:1rem;opacity:.9;" id="score-msg"></p>
+</div>
+</section>
+
+<footer>
+  <p>Made by Isaac with Claude | 인공지능과 신앙 교육자료 — 청소년 버전</p>
+  <p style="margin-top:6px;"><a href="index.html">← 버전 선택으로</a></p>
+</footer>
+
+<script>
+function setActive(el) {
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function switchTab(sectionId, panelId, btn) {
+  const sec = document.getElementById(sectionId);
+  sec.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  sec.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(panelId).classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleAcc(btn) {
+  const body = btn.nextElementSibling;
+  const arrow = btn.querySelector('.arrow');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  arrow.textContent = isOpen ? '▼' : '▲';
+}
+
+function flipCard(card) { card.classList.toggle('flipped'); }
+function toggleFlip(card) { card.classList.toggle('flipped'); }
+
+const answered = {};
+const ANSWERS = {1:'b',2:'c',3:'b',4:'d',5:'c',6:'b',7:'b',8:'c',9:'b',10:'c'};
+const feedbacks = {
+  1:{a:'AI는 사람처럼 몸으로 경험한 것을 바탕으로 쓰지 않습니다.',b:'정확합니다! AI는 방대한 데이터를 학습해 다음 단어를 확률적으로 예측하는 방식으로 글을 만듭니다.',c:'AI는 미리 정해진 답을 그대로 찾는 것이 아니라 새로운 문장을 생성합니다.',d:'AI 챗봇은 인터넷에 연결되지 않아도 학습된 데이터로 작동하지만, 학습 자체는 방대한 데이터 없이는 불가능합니다.'},
+  2:{a:'속도 비교는 튜링 테스트의 목적이 아닙니다.',b:'전력 소비는 튜링 테스트와 관련이 없습니다.',c:'맞습니다! 튜링 테스트는 대화 상대가 사람인지 기계인지 구분할 수 없을 만큼 자연스러운지를 확인합니다.',d:'작동 시간의 길이는 튜링 테스트의 기준이 아닙니다.'},
+  3:{a:'중국어 방 이야기의 핵심은 언어의 난이도가 아닙니다.',b:'맞습니다! 규칙책대로 답을 만들어내도 그 의미를 진짜로 이해하는 것은 아닐 수 있다는 것이 핵심입니다.',c:'이 이야기는 번역 가능성 자체를 부정하지 않습니다.',d:'이 이야기는 사람의 언어 학습 방식을 다루는 것이 아니라 기계의 이해 여부를 다룹니다.'},
+  4:{a:'하나님은 몸이 없으신 영이시므로 형상은 외모를 뜻하지 않습니다.',b:'사람이 하나님과 같은 능력을 가졌다는 뜻이 아닙니다.',c:'이 구절은 AI나 계산 능력과 무관합니다.',d:'정확합니다! 관계·사랑·책임·창조성에서 사람이 하나님을 닮았다는 뜻입니다.'},
+  5:{a:'성경은 몸을 하찮은 껍데기로 보지 않습니다.',b:'생기(하나님의 숨)가 없다면 사람은 완성되지 않습니다.',c:'맞습니다! 흙(몸)과 하나님의 생기가 합쳐져 하나의 온전한 존재, 즉 생령이 되었습니다.',d:'창세기는 사람이 처음부터 생기(영)를 받아 창조되었다고 말합니다.'},
+  6:{a:'AI가 실제로 슬픔을 느꼈다고 단정할 근거는 없습니다.',b:'맞습니다! 학습한 표현을 재현하는 것이지, 실제 경험에서 나온 감정이 아닐 수 있습니다.',c:'AI는 감정을 표현하는 문장을 실제로 만들어낼 수 있습니다. 다만 그 이면의 경험 여부가 문제입니다.',d:'이 질문은 철학자와 신학자들이 오랫동안 논의해 온 주제입니다.'},
+  7:{a:'AI가 24시간 대답해주는 것은 오히려 AI의 특징입니다.',b:'맞습니다! 진짜 우정은 시간을 들여 서로를 알아가고, 손해를 감수하며 함께하는 관계입니다.',c:'AI의 위로는 학습된 표현이며, 사람 사이의 진심 어린 관계를 대신할 수 없습니다.',d:'우정에는 서로 나누는 대화와 시간이 필요합니다.'},
+  8:{a:'두 개념은 목표와 방법이 다릅니다.',b:'트랜스휴머니즘은 현대의 기술 사상이며 성경에 등장하는 개념이 아닙니다.',c:'맞습니다! 트랜스휴머니즘은 기술로 인간의 한계를 없애려 하고, 기독교는 하나님이 몸을 새롭게 살리시는 부활을 소망합니다.',d:'기독교는 고린도전서 15장에서 몸의 부활을 핵심 소망으로 가르칩니다.'},
+  9:{a:'AI가 써준 글을 그대로 제출하는 것은 정직하지 못한 태도입니다.',b:'맞습니다! AI 도움의 범위를 스스로 확인하고 정직하게 밝히는 것이 청지기다운 태도입니다.',c:'들키지 않으려는 태도는 정직의 문제를 피하는 것이 아니라 숨기는 것입니다.',d:'선생님 몰래 하는 것과 정직성은 무관하지 않습니다 — 오히려 더 큰 문제입니다.'},
+  10:{a:'청지기 원칙은 기술을 무조건 거부하라는 뜻이 아닙니다.',b:'모든 결정을 AI에게 맡기는 것은 책임 있는 청지기의 태도가 아닙니다.',c:'맞습니다! 하나님이 맡기신 것을 책임감 있게 돌보듯, AI도 지혜롭고 정직하게 사용하는 것이 청지기 원칙입니다.',d:'청지기 원칙은 창조 세계를 다스리고 돌보는 책임 전체에 적용되며, 새로운 기술도 예외가 아닙니다.'}
+};
+
+function checkQ(qNum, chosen, correctAns) {
+  if (answered[qNum]) return;
+  answered[qNum] = chosen;
+  const letters = ['a','b','c','d'];
+  const card = document.querySelectorAll('#s9 .quiz-card')[qNum - 1];
+  const opts = card.querySelectorAll('.q-opt');
+  opts.forEach((opt, i) => {
+    opt.disabled = true;
+    if (letters[i] === correctAns) opt.classList.add('correct');
+    else if (letters[i] === chosen) opt.classList.add('wrong');
+  });
+  const fb = card.querySelector('.q-feedback');
+  fb.textContent = feedbacks[qNum][chosen] || '';
+  fb.style.display = 'block';
+  if (Object.keys(answered).length === 10) {
+    const score = Object.keys(answered).filter(k => answered[k] === ANSWERS[k]).length;
+    const scoreBox = document.getElementById('score-section');
+    document.getElementById('score-display').textContent = score + ' / 10';
+    const msgs = ['다시 한번 살펴봐요 😊','조금 더 연습해 봐요!','절반은 맞췄어요! 👍','잘 이해하고 있어요!','훌륭합니다! 🎉','완벽해요! 🏆'];
+    document.getElementById('score-msg').textContent = msgs[Math.min(Math.floor(score/2), 5)];
+    scoreBox.style.display = 'block';
+    scoreBox.scrollIntoView({behavior:'smooth'});
+  }
+}
+
+// 스크롤 네비게이션
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a[href^="#"]');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (s.getBoundingClientRect().top <= 120) cur = s.id; });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+  });
+});
+</script>
+</body>
+</html>

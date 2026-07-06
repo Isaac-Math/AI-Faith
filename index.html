@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>인공지능과 신앙 — 버전 선택</title>
+<style>
+  :root {
+    --ai: #274c77;
+    --ai-dark: #14213d;
+    --ai-light: #6096ba;
+    --ai-xlight: #e1ecf7;
+    --primary: #2d6a4f;
+    --gold: #f4a261;
+    --bg: #f9fafb;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --muted: #6c757d;
+    --radius: 16px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    background: linear-gradient(135deg, #14213d 0%, #274c77 100%);
+    color: #fff;
+    padding: 56px 24px 44px;
+    text-align: center;
+  }
+  header .icon { font-size: 3.2rem; display: block; margin-bottom: 14px; }
+  header h1 { font-size: 2.1rem; font-weight: 800; margin-bottom: 10px; }
+  header p { opacity: .85; font-size: 1.05rem; max-width: 520px; margin: 0 auto; line-height: 1.7; }
+  .badge-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+  .badge { background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); border-radius: 20px; padding: 4px 14px; font-size: .82rem; }
+  main {
+    flex: 1; max-width: 820px; margin: 0 auto;
+    padding: 52px 20px 80px; width: 100%;
+  }
+  .choose-label {
+    text-align: center; font-size: .88rem; font-weight: 700;
+    color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 28px;
+  }
+  .version-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 620px) { .version-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) {
+    header { padding: 36px 16px 28px; }
+    header h1 { font-size: 1.6rem; }
+    main { padding: 32px 14px 60px; }
+    .version-card { padding: 24px 18px 20px; }
+    .v-title { font-size: 1.1rem; }
+    .v-desc { font-size: .88rem; }
+    .v-features li { font-size: .82rem; }
+    .info-box { padding: 16px; flex-direction: column; gap: 10px; }
+  }
+  .version-card {
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 36px 28px 32px; text-decoration: none; color: var(--text);
+    display: flex; flex-direction: column; gap: 14px;
+    border: 2px solid transparent; transition: all .22s;
+    position: relative; overflow: hidden;
+  }
+  .version-card:hover { transform: translateY(-4px); box-shadow: 0 8px 36px rgba(0,0,0,0.14); }
+  .version-card.middle { border-color: var(--ai-light); }
+  .version-card.middle:hover { border-color: var(--ai); }
+  .version-card.high { border-color: var(--ai); }
+  .version-card.high:hover { border-color: var(--ai-dark); }
+  .version-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+  }
+  .version-card.middle::before { background: linear-gradient(90deg, var(--ai-light), var(--ai)); }
+  .version-card.high::before { background: linear-gradient(90deg, var(--ai), var(--ai-dark)); }
+  .v-emoji { font-size: 2.8rem; }
+  .v-level { font-size: .78rem; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
+  .version-card.middle .v-level { color: var(--ai); }
+  .version-card.high .v-level { color: var(--ai-dark); }
+  .v-title { font-size: 1.3rem; font-weight: 800; }
+  .v-desc { font-size: .93rem; color: var(--muted); line-height: 1.7; }
+  .v-features { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+  .v-features li { font-size: .85rem; display: flex; align-items: flex-start; gap: 7px; }
+  .v-features li::before { content: '✓'; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .version-card.middle .v-features li::before { color: var(--ai); }
+  .version-card.high .v-features li::before { color: var(--ai-dark); }
+  .v-btn {
+    margin-top: auto; display: inline-block; padding: 12px 0; border-radius: 30px;
+    font-size: .92rem; font-weight: 700; text-align: center; transition: opacity .2s;
+  }
+  .version-card.middle .v-btn { background: var(--ai); color: #fff; }
+  .version-card.high .v-btn { background: var(--ai-dark); color: #fff; }
+  .version-card:hover .v-btn { opacity: .88; }
+  .info-box {
+    background: var(--card); border-radius: var(--radius);
+    padding: 24px 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    margin-top: 32px; display: flex; gap: 16px; align-items: flex-start;
+    border-left: 4px solid var(--gold);
+  }
+  .info-box .info-icon { font-size: 1.6rem; flex-shrink: 0; }
+  .info-box p { font-size: .9rem; color: var(--muted); line-height: 1.7; }
+  .info-box strong { color: var(--text); }
+  footer {
+    background: var(--ai-dark); color: rgba(255,255,255,.75);
+    text-align: center; padding: 20px; font-size: .82rem;
+  }
+  footer a { color: rgba(255,255,255,.9); }
+</style>
+</head>
+<body>
+<div style="background:#14213d;padding:10px 20px;display:flex;align-items:center;gap:10px;">
+  <a href="https://isaac-math.github.io/Faith_Reason/" style="color:#fff;text-decoration:none;font-size:.83rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:16px;padding:4px 12px;">← 신앙과 이성 전체</a>
+  <span style="color:rgba(255,255,255,.35);font-size:.8rem;">|</span>
+  <span style="color:rgba(255,255,255,.7);font-size:.82rem;">인공지능과 신앙</span>
+</div>
+
+<header>
+  <span class="icon">🤖</span>
+  <h1>인공지능과 신앙</h1>
+  <p>AI가 사람처럼 말하고 그리고 글을 쓰는 시대,<br>'하나님의 형상'은 무엇을 뜻하는가</p>
+  <div class="badge-row">
+    <span class="badge">👤 하나님의 형상</span>
+    <span class="badge">💭 의식과 영혼</span>
+    <span class="badge">🦾 트랜스휴머니즘</span>
+    <span class="badge">🧭 기술 청지기직</span>
+  </div>
+</header>
+
+<main>
+  <p class="choose-label">버전 선택</p>
+
+  <div class="version-grid">
+
+    <a href="AI_middle.html" class="version-card middle">
+      <span class="v-emoji">🤖</span>
+      <span class="v-level">청소년 버전</span>
+      <span class="v-title">AI 시대, 사람은 무엇이 특별할까</span>
+      <p class="v-desc">중국어 방·앵무새 같은 쉬운 비유와 플립카드·탭으로 AI와 인간의 차이를 탐구합니다.</p>
+      <ul class="v-features">
+        <li>AI는 어떻게 배우는가 — 패턴 학습 쉽게 이해하기</li>
+        <li>중국어 방 이야기 — AI는 정말 '생각'할까</li>
+        <li>하나님의 형상 4키워드 — 관계·사랑·책임·창조성</li>
+        <li>영혼이란 무엇인가, AI 친구의 진짜 의미</li>
+        <li>슈퍼휴먼의 꿈 vs 부활의 소망</li>
+        <li>인물 카드 4 + 퀴즈 10문제</li>
+      </ul>
+      <span class="v-btn">청소년 버전으로 →</span>
+    </a>
+
+    <a href="AI_high.html" class="version-card high">
+      <span class="v-emoji">🧠</span>
+      <span class="v-level">대학생 버전</span>
+      <span class="v-title">의식·영혼·형상론으로 읽는 AI</span>
+      <p class="v-desc">튜링·설·차머스의 철학부터 영혼론 스펙트럼, 히브리어 원문 분석, 교황청 문서까지 학술적으로 다룹니다.</p>
+      <ul class="v-features">
+        <li>지능의 철학 — 튜링 테스트, 중국어 방, 어려운 문제</li>
+        <li>영혼론 스펙트럼 5 — 이원론부터 기독교 유물론까지</li>
+        <li>네페쉬·첼렘 히브리어 원문 분석 + ANE 배경</li>
+        <li>교회의 공식 응답 — Antiqua et Nova부터 Magnifica Humanitas까지</li>
+        <li>트랜스휴머니즘·AI 윤리·기술의 신학</li>
+        <li>학자 9인 카드 + 학술 레퍼런스 + 퀴즈 12문제</li>
+      </ul>
+      <span class="v-btn">대학생 버전으로 →</span>
+    </a>
+
+  </div>
+
+  <div class="info-box">
+    <span class="info-icon">💡</span>
+    <p><strong>이 시리즈에 대해</strong><br>
+    "인공지능과 신앙"은 AI 찬반을 다루는 자료가 아닙니다. AI가 사람의 말과 글을 흉내 내는 시대에 "인간이란 무엇인가, 하나님의 형상이란 무엇인가"를 성경적 인간론으로 다시 묻는 자료입니다. 진화적 창조(EC) 시리즈의 인간 창조·형상론 논의, 성경의 권위(BA) 시리즈의 본문 해석 원칙과 이어집니다. 청소년 버전으로 핵심 질문을 먼저 파악한 뒤, 대학생 버전에서 철학적·신학적 깊이로 들어가는 것을 권합니다.</p>
+  </div>
+</main>
+
+<footer>
+  <p>Made by Isaac with Claude | 인공지능과 신앙 교육자료</p>
+</footer>
+
+</body>
+</html>
