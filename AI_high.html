@@ -34,7 +34,8 @@
     --border:#dee2e6; --radius:12px; --shadow:0 2px 12px rgba(0,0,0,0.08);
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Noto Sans KR','Apple SD Gothic Neo',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;}
+  body{font-family:'Noto Sans KR','Apple SD Gothic Neo',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;word-break:keep-all;overflow-wrap:break-word;}
+  th,td{overflow-wrap:anywhere;}
   .site-header{background:linear-gradient(135deg,#14213d 0%,#274c77 100%);color:#fff;padding:48px 24px 36px;text-align:center;}
   .site-header h1{font-size:2rem;font-weight:800;margin-bottom:8px;}
   .site-header p{opacity:.85;font-size:.98rem;max-width:520px;margin:0 auto;line-height:1.7;}
@@ -66,10 +67,10 @@
   .acc-body.open{max-height:1800px;padding:16px 18px;}
   .arrow{font-size:.75rem;color:var(--muted);transition:transform .25s;}
   .flip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:20px;}
-  .flip-card{height:270px;cursor:pointer;perspective:1000px;}
-  .flip-inner{width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;position:relative;}
+  .flip-card{min-height:270px;display:grid;cursor:pointer;perspective:1000px;}
+  .flip-inner{width:100%;display:grid;transition:transform .5s;transform-style:preserve-3d;position:relative;}
   .flip-card.flipped .flip-inner{transform:rotateY(180deg);}
-  .flip-front,.flip-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:var(--radius);display:flex;flex-direction:column;overflow-y:auto;align-items:center;justify-content:center;padding:16px;text-align:center;box-sizing:border-box;}
+  .flip-front,.flip-back{grid-area:1/1;min-width:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:var(--radius);display:flex;flex-direction:column;overflow-y:auto;align-items:center;justify-content:center;padding:16px;text-align:center;box-sizing:border-box;}
   .flip-front{background:var(--card);border:2px solid var(--ai-xlight);}
   .flip-back{background:var(--ai);color:#fff;transform:rotateY(180deg);justify-content:flex-start;text-align:left;}
   .flip-icon{font-size:2rem;margin-bottom:8px;}
@@ -295,12 +296,12 @@
   <button class="tab-btn" onclick="switchTab('s3','s3t3',this)">고차이론(HOT)</button>
 </div>
 <div id="s3t1" class="tab-panel active"><div class="card"><p><strong>전역 작업공간 이론(Global Workspace Theory)</strong> — 바스(Baars)가 제안하고 드앤(Dehaene)이 신경과학적으로 발전시킴. 의식은 여러 무의식적 처리 과정 중 하나의 정보가 '전역 작업공간'에 방송되어 뇌 전체가 접근 가능해지는 상태라고 봅니다.</p></div></div>
-<div id="s3t2" class="tab-panel"><div class="card"><p><strong>통합정보이론(Integrated Information Theory)</strong> — 토노니(Tononi)가 제안. 의식의 정도는 시스템이 정보를 얼마나 통합하는지를 나타내는 수치 Φ(파이)로 측정될 수 있다고 주장합니다. 원리적으로 실리콘 기반 시스템도 충분한 통합 구조를 가지면 의식을 가질 수 있다고 봅니다.</p></div></div>
+<div id="s3t2" class="tab-panel"><div class="card"><p><strong>통합정보이론(Integrated Information Theory)</strong> — 토노니(Tononi)가 제안. 의식의 정도는 시스템이 정보를 얼마나 통합하는지를 나타내는 수치 Φ(파이)로 측정될 수 있다고 주장합니다. 원리적으로 실리콘 기반 시스템도 충분한 통합 구조를 가지면 의식을 가질 수 있다고 봅니다. 다만 IIT에 따르면 일반 디지털 컴퓨터에서 실행되는 프로그램(현재의 LLM 포함)은 인간 행동을 완벽히 흉내 내도 의식이 없으며, 가능성은 뇌와 비슷한 인과 구조를 지닌 뉴로모픽 하드웨어에만 열려 있습니다.</p></div></div>
 <div id="s3t3" class="tab-panel"><div class="card"><p><strong>고차이론(Higher-Order Theories)</strong> — 어떤 정신 상태가 의식적이려면 그 상태를 '표상하는' 또 다른 상위 수준의 정신 상태가 있어야 한다는 이론. 자기 자신의 상태를 인식하는 상위 표상의 존재가 의식의 관건이라고 봅니다.</p></div></div>
 <div class="card" style="margin-top:16px;">
   <p style="font-weight:700;color:var(--ai);margin-bottom:10px;">"LLM은 의식이 있는가"</p>
-  <p>버틀린 외(Butlin et al., 2023, arXiv:2308.08708)는 특정 형이상학적 입장에 의존하지 않고, 위와 같은 이론들이 제시하는 "의식 지표(indicator properties)"를 현재 AI 시스템에 하나씩 대조하는 방법론을 제안했습니다. 결론은 신중합니다: 현재 어떤 AI 시스템도 의식 지표를 충분히 만족시킨다는 강한 증거는 없지만, 가까운 미래에 그런 시스템을 만드는 데 뚜렷한 기술적 장벽도 없다는 것입니다. 차머스도 2022년 NeurIPS 강연에서 비슷하게 신중한 입장을 취했습니다.</p>
-  <div class="highlight-box" style="margin-top:12px;"><strong>정직한 결론:</strong> "현 세대 LLM이 의식적이라는 증거는 없다. 그러나 원리적 배제도 어렵다"는 것이 현재 학계의 대체적 합의에 가깝습니다.</div>
+  <p>버틀린 외(Butlin et al., 2023, arXiv:2308.08708)는 '계산 기능주의'(적절한 종류의 계산을 수행하는 것이 의식의 필요충분조건이라는, 주류이지만 논쟁 중인 심리철학 입장)를 작업가설로 채택하고, 재귀처리이론(Recurrent Processing Theory)·전역 작업공간 이론·고차이론 등에서 도출한 "의식 지표(indicator properties)"를 현재 AI 시스템에 하나씩 대조했습니다(IIT는 계산 기능주의와 양립하지 않아 제외). 결론은 신중합니다: 현재 어떤 AI 시스템도 의식적이지 않은 것으로 보이지만, 이 지표들을 갖춘 시스템을 만드는 데 뚜렷한 기술적 장벽은 없다는 것입니다. 차머스도 2022년 NeurIPS 강연에서 비슷하게 신중한 입장을 취했습니다. 다만 버틀린 외의 결론은 계산 기능주의가 참이라는 전제 위의 조건부 판단이므로, 그 전제를 거부하는 실체 이원론에서는 평가가 달라집니다.</p>
+  <div class="highlight-box" style="margin-top:12px;"><strong>정직한 결론:</strong> "현 세대 LLM이 의식적이라는 증거는 없다"는 데는 대체로 의견이 모입니다. 그러나 원리적으로 가능한지는 계산 기능주의(가능)와 통합정보이론(IIT) 등(일반 디지털 컴퓨터에서 돌아가는 프로그램으로는 불가능)이 갈리는 미해결 문제입니다.</div>
   <p style="margin-top:10px;">신학적으로 이 논의는 중요한 질문을 남깁니다: 만약 의식이 순전히 물리적 정보 처리의 산물이라면, 이는 영혼론에 어떤 함의를 갖는가? 이 질문을 S4에서 이어갑니다.</p>
 </div>
 </section>
@@ -387,8 +388,8 @@
 <div id="s6t4" class="tab-panel"><div class="card"><p><strong>기독론적·종말론적 해석</strong> — 그리스도가 "보이지 아니하는 하나님의 형상"(골 1:15)이시며, 신자는 그리스도의 형상을 본받아가는 과정(롬 8:29) 중에 있습니다. 창세기의 형상은 그리스도 안에서 완성될 원형의 예표로 읽힙니다.</p></div></div>
 <div class="card" style="margin-top:16px;">
   <p style="font-weight:700;color:var(--ai);margin-bottom:10px;">고대근동(ANE) 배경 — <span class="heb">צֶלֶם</span>·<span class="heb">דְּמוּת</span></p>
-  <p><span class="heb">צֶלֶם</span>(첼렘, '형상')과 <span class="heb">דְּמוּת</span>(데무트, '모양')은 고대 메소포타미아·이집트에서 원래 <strong>왕의 칭호</strong>였습니다. 왕만이 신의 "형상"으로서 땅에서 신을 대리할 자격이 있다는 것이 고대근동의 표준적 왕권 이데올로기였습니다.</p>
-  <div class="highlight-box" style="margin-top:12px;"><strong>텔 페케리예 이중언어 비문(주전 9세기):</strong> 아시리아-아람어 이중 비문에서 아카드어 <em>ṣalmu</em>(짤무)와 아람어 <em>demutha</em>(드무타)가 병행 용어로 등장합니다 — 창세기 1:26의 "형상"과 "모양"이 바로 이 왕권 어휘 쌍과 정확히 일치합니다.</div>
+  <p><span class="heb">צֶלֶם</span>(첼렘, '형상')과 <span class="heb">דְּמוּת</span>(데무트, '모양')의 기본 뜻은 각각 '조각상·형상'과 '닮은꼴'입니다(첼렘의 아카드어 동족어 <em>ṣalmu</em>도 본래 '조각상·형상'을 뜻합니다). 고대 메소포타미아·이집트에서 '신의 형상'이라는 표현은 무엇보다 <strong>왕을 가리키는 칭호</strong>였습니다. 왕만이 신의 "형상"으로서 땅에서 신을 대리할 자격이 있다는 것이 고대근동의 표준적 왕권 이데올로기였습니다.</p>
+  <div class="highlight-box" style="margin-top:12px;"><strong>텔 페케리예 이중언어 비문(주전 9세기):</strong> 아시리아-아람어 이중 비문의 아람어 본문에 창세기 1:26의 두 단어와 같은 뿌리인 <em>ṣlm</em>(첼렘)과 <em>dmwtʾ</em>(데무타)가 함께 나타나, 같은 통치자(아카드어 본문에서는 '총독', 아람어 본문에서는 '왕')의 석상을 가리킵니다. 두 단어가 거의 같은 뜻의 짝으로 쓰였음을 보여 주는 성경 밖 증거입니다.</div>
   <p style="margin-top:12px;">미들턴(J. Richard Middleton, 『The Liberating Image』, 2005)의 핵심 논지: 창세기 1장은 이 왕권 이데올로기를 가져와 <strong>모든 인간에게 민주화</strong>합니다. 고대근동에서는 왕 한 사람만이 신의 형상이었다면, 창세기는 남녀 모든 사람이 "하나님의 형상"이라고 선언합니다. 이는 고대 세계에서 유례없이 급진적인 인간 존엄의 선언입니다.</p>
   <p style="margin-top:10px;font-size:.85rem;color:var(--muted);">이 논의는 EC(진화적 창조) 시리즈의 형상론 파트와 직접 이어집니다 — 형상은 생물학적 진화 과정과 별도로, 하나님이 인류에게 부여하신 신학적·관계적 지위이기 때문입니다.</p>
   <p style="margin-top:10px;font-size:.85rem;color:var(--muted);">🏺 고대근동의 신·왕·신전 세계에서 형상, 우주 성전, 에덴 성소를 한데 읽는 배경 논의는 <a href="https://faithreason.kr/Bible-ANE/ANE_high.html#s9" style="color:var(--ai);font-weight:700;">「성경과 고대근동 문헌」(ANE) 대학생 버전 S9 '형상과 성전'</a>에서 다룹니다.</p>
@@ -405,12 +406,12 @@
   <div class="highlight-box" style="margin-top:12px;"><strong>허츠펠드의 핵심 통찰:</strong> 사람이 AI를 "자기 형상대로" 만들었다는 사실 자체가 중요합니다. AI는 인간이 스스로를 무엇이라 이해하는지를 비추는 거울입니다 — 우리가 AI에게 무엇을 닮게 만들려 하는지를 보면, 우리가 인간다움의 핵심을 무엇이라 여기는지 드러납니다.</div>
 </div>
 <div class="acc-item">
-  <button class="acc-btn" onclick="toggleAcc(this)">도로반투(Anne Foerst / VU 암스테르담) — AGI 사고실험과 형상론의 정화 <span class="arrow">▼</span></button>
-  <div class="acc-body"><p>일부 신학자들은 AGI(범용인공지능)라는 사고실험 자체가 유익하다고 봅니다. "만약 인간과 구별할 수 없는 AGI가 등장한다면 형상론의 어느 요소가 진짜 핵심인가?"를 묻는 과정에서, 신학자들은 형상론에서 부수적인 것(단순 지능)과 본질적인 것(관계, 자유, 도덕적 책임)을 더 명료하게 구분하게 됩니다.</p></div>
+  <button class="acc-btn" onclick="toggleAcc(this)">마리우스 도로반투(Marius Dorobanțu, VU 암스테르담) — AGI 사고실험과 형상론의 정화 <span class="arrow">▼</span></button>
+  <div class="acc-body"><p>VU 암스테르담의 신학자 마리우스 도로반투는 '인간 수준 AI'라는 가정이 형상론을 무너뜨리기보다 오히려 더 정교하게 다듬는 계기가 된다고 봅니다. "만약 인간과 구별할 수 없는 AGI가 등장한다면 형상론의 어느 요소가 진짜 핵심인가?"를 묻는 과정에서, 신학자들은 형상론에서 부수적인 것(단순 지능)과 본질적인 것(관계, 자유, 도덕적 책임)을 더 명료하게 구분하게 됩니다.</p></div>
 </div>
 <div class="acc-item">
-  <button class="acc-btn" onclick="toggleAcc(this)">앤 푀르스트의 초기 로봇신학 — MIT Kismet 프로젝트 <span class="arrow">▼</span></button>
-  <div class="acc-body"><p>신학자 앤 푀르스트는 MIT 인공지능 연구소의 사회적 로봇 Kismet 프로젝트에 신학 자문으로 직접 참여했습니다(저서 『God in the Machine』, 2004). 그녀는 로봇공학 현장에서 신학과 공학의 실제 대화를 시도한 초기 사례로 꼽힙니다.</p></div>
+  <button class="acc-btn" onclick="toggleAcc(this)">앤 푀르스트의 초기 로봇신학 — MIT Cog·Kismet 프로젝트 <span class="arrow">▼</span></button>
+  <div class="acc-body"><p>신학자 앤 푀르스트는 MIT 인공지능 연구소(AI Lab)의 로봇 Cog와 사회적 로봇 Kismet 프로젝트에 신학 자문으로 직접 참여했습니다(저서 『God in the Machine』, 2004). 그녀는 로봇공학 현장에서 신학과 공학의 실제 대화를 시도한 초기 사례로 꼽힙니다.</p></div>
 </div>
 <div class="card" style="margin-top:14px;">
   <p style="font-weight:700;color:var(--ai);margin-bottom:10px;">"AI 인격성 인정" 찬반 논거</p>
@@ -427,7 +428,7 @@
 <p class="section-sub">기술로 인간의 한계를 극복하려는 사상의 계보와 신학적 평가.</p>
 <div class="card">
 <div class="timeline">
-  <div class="tl-item"><div class="tl-year">1957</div><div class="tl-body">줄리언 헉슬리가 '트랜스휴머니즘(transhumanism)'이라는 용어를 처음 사용.</div></div>
+  <div class="tl-item"><div class="tl-year">1957</div><div class="tl-body">줄리언 헉슬리가 에세이 「Transhumanism」으로 '트랜스휴머니즘(transhumanism)'이라는 용어를 대중화. 헉슬리 자신은 1951년 강연에서 먼저 쓴 것으로 알려져 있고, 단어 자체는 1940년 W. D. 라이트홀(Lighthall)의 글에 이미 보임.</div></div>
   <div class="tl-item"><div class="tl-year">1980s</div><div class="tl-body">엑스트로피언즈(Extropians) — 초기 트랜스휴머니스트 하위문화, 무한한 진보를 낙관.</div></div>
   <div class="tl-item"><div class="tl-year">1998</div><div class="tl-body">닉 보스트롬·데이비드 피어스가 세계트랜스휴머니스트협회(WTA) 창설.</div></div>
   <div class="tl-item"><div class="tl-year">2005 / 2024</div><div class="tl-body">레이 커즈와일 『특이점이 온다』(2005) — 2045년 특이점 예측. 후속작 『특이점이 더 가까워졌다』(2024).</div></div>
@@ -462,7 +463,7 @@
 <p class="section-sub">복음주의 성명서부터 가톨릭 교황의 첫 AI 회칙까지 — 문서 타임라인.</p>
 <div class="card">
 <div class="timeline">
-  <div class="tl-item"><div class="tl-year">2019.4</div><div class="tl-body"><strong>ERLC 「AI: 복음주의 원칙 선언」</strong> — 미국 남침례교 윤리와종교자유위원회. 인간 존엄을 중심에 둔 9개 조항으로 구성된 초기 복음주의 성명.</div></div>
+  <div class="tl-item"><div class="tl-year">2019.4</div><div class="tl-body"><strong>ERLC 「AI: 복음주의 원칙 선언」</strong> — 미국 남침례교 윤리와종교자유위원회. 인간 존엄을 중심에 둔 12개 조항(각 조항 '긍정·부정' 형식)으로 구성된 초기 복음주의 성명(2019.4.11).</div></div>
   <div class="tl-item"><div class="tl-year">2020.2</div><div class="tl-body"><strong>Rome Call for AI Ethics</strong> — 교황청 생명학술원이 마이크로소프트·IBM 등과 공동 서명. '알고르-윤리(algor-ethics)' 개념을 제시, 알고리즘 설계 단계부터 윤리를 내장할 것을 제안.</div></div>
   <div class="tl-item"><div class="tl-year">2025.1.28</div><div class="tl-body"><strong>「Antiqua et Nova」</strong> — 신앙교리부와 문화교육부가 공동 발표(교황 프란치스코가 1월 14일 승인). 117개 항으로 구성되어, AI를 도구로 규정하고 참된 지성은 신체적·관계적·영적이라는 점을 강조.</div></div>
   <div class="tl-item"><div class="tl-year">2025.5</div><div class="tl-body"><strong>레오 14세 즉위, 교황명에 AI를 명시</strong> — 추기경단과의 첫 공식 만남에서 "레오 13세가 『새로운 사태(Rerum Novarum)』(1891)로 제1차 산업혁명의 사회 문제에 답했듯, 오늘의 교회는 또 다른 산업혁명, 즉 인공지능 발전이 제기하는 인간 존엄·정의·노동의 새로운 도전에 응답한다"는 취지로 교황명 선택 이유를 밝힘.</div></div>
@@ -548,7 +549,7 @@
   <div class="person-card"><div class="person-emoji">🔬</div><div class="person-name">낸시 머피</div><div class="person-role">풀러신학교</div><div class="person-work">『Bodies and Souls, or Spirited Bodies?』(2006)</div><p class="person-desc">비환원적 물리주의의 대표적 옹호자로, 신경과학과 신학적 인간론의 통합을 시도합니다.</p></div>
   <div class="person-card"><div class="person-emoji">📖</div><div class="person-name">존 쿠퍼</div><div class="person-role">칼빈신학교 명예교수</div><div class="person-work">『Body, Soul, and Life Everlasting』(1989)</div><p class="person-desc">전인적 이원론의 대표적 옹호자로, 중간상태 교리를 성경적으로 정교하게 변호합니다.</p></div>
   <div class="person-card"><div class="person-emoji">🌐</div><div class="person-name">로버트 제라치</div><div class="person-role">맨해튼 칼리지 종교학과</div><div class="person-work">『Apocalyptic AI』(2010)</div><p class="person-desc">특이점주의를 세속화된 묵시 종말론으로 분석하는 종교학적 접근을 개척했습니다.</p></div>
-  <div class="person-card"><div class="person-emoji">🕊️</div><div class="person-name">앤 푀르스트</div><div class="person-role">세인트볼프신학교</div><div class="person-work">『God in the Machine』(2004)</div><p class="person-desc">MIT 로봇공학 연구소에 신학 자문으로 직접 참여한 초기 로봇신학의 개척자입니다.</p></div>
+  <div class="person-card"><div class="person-emoji">🕊️</div><div class="person-name">앤 푀르스트</div><div class="person-role">세인트보나벤처 대학교(미국)</div><div class="person-work">『God in the Machine』(2004)</div><p class="person-desc">MIT 인공지능 연구소(AI Lab)의 Cog·Kismet 로봇 프로젝트에 신학 자문으로 참여한 초기 로봇신학의 개척자입니다.</p></div>
 </div>
 </section>
 
@@ -566,7 +567,7 @@
   <div class="gloss-item"><div class="gloss-term">물리주의</div><div class="gloss-orig">Physicalism</div><div class="gloss-def">존재하는 모든 것이 물리적이거나 물리적인 것에 의존한다는 형이상학적 입장.</div></div>
   <div class="gloss-item"><div class="gloss-term">실체 이원론</div><div class="gloss-orig">Substance Dualism</div><div class="gloss-def">마음(영혼)과 몸이 서로 다른 두 종류의 실체라는 입장. 데카르트 전통.</div></div>
   <div class="gloss-item"><div class="gloss-term">네페쉬 / <span class="heb">נֶפֶשׁ</span></div><div class="gloss-orig">Nephesh</div><div class="gloss-def">히브리어로 생명·자아·목숨을 뜻하며, 사람과 동물 모두에게 사용되는 '살아있는 존재 전체'를 가리키는 말.</div></div>
-  <div class="gloss-item"><div class="gloss-term">첼렘 · 데무트</div><div class="gloss-orig"><span class="heb">צֶלֶם</span> · <span class="heb">דְּמוּת</span></div><div class="gloss-def">'형상'과 '모양'. 고대근동에서 왕의 칭호였던 이 용어들을 창세기 1장이 모든 인간에게 적용함.</div></div>
+  <div class="gloss-item"><div class="gloss-term">첼렘 · 데무트</div><div class="gloss-orig"><span class="heb">צֶלֶם</span> · <span class="heb">דְּמוּת</span></div><div class="gloss-def">'형상'과 '모양'(기본 뜻은 각각 '조각상·형상'과 '닮은꼴'). 고대근동에서 무엇보다 왕을 가리키는 칭호였던 '신의 형상'이라는 표현을 창세기 1장이 모든 인간에게 적용함.</div></div>
   <div class="gloss-item"><div class="gloss-term">특이점</div><div class="gloss-orig">Singularity</div><div class="gloss-def">AI의 자기 개선 속도가 기하급수적으로 가속화되어 인간이 예측할 수 없는 변화가 일어난다고 예측되는 가상의 시점.</div></div>
   <div class="gloss-item"><div class="gloss-term">트랜스휴머니즘</div><div class="gloss-orig">Transhumanism</div><div class="gloss-def">기술을 통해 노화·질병·죽음 등 인간의 생물학적 한계를 극복하려는 사상 운동.</div></div>
   <div class="gloss-item"><div class="gloss-term">마인드 업로딩</div><div class="gloss-orig">Mind Uploading</div><div class="gloss-def">뇌의 정보를 컴퓨터로 옮겨 의식을 물리적 신체와 독립적으로 존속시키려는 가상의 기술.</div></div>
@@ -623,6 +624,8 @@
     <li><span class="ref-author">Lennox, John C.</span> <span class="ref-title">2084 and the AI Revolution.</span> Zondervan Reflective, 2024 (초판 <span class="ref-title">2084</span>, 2020). [한국어판 존재 여부 확인 필요]</li>
     <li><span class="ref-author">Wyatt, John, and Stephen N. Williams (eds.).</span> <span class="ref-title">The Robot Will See You Now.</span> SPCK, 2021.</li>
     <li><span class="ref-author">Geraci, Robert M.</span> <span class="ref-title">Apocalyptic AI.</span> Oxford University Press, 2010.</li>
+    <li><span class="ref-author">Huxley, Julian.</span> "Transhumanism." In <span class="ref-title">New Bottles for New Wine.</span> London: Chatto &amp; Windus, 1957. 13–17.</li>
+    <li><span class="ref-author">Harrison, Peter, and Joseph Wolyniak.</span> "The History of 'Transhumanism'." <span class="ref-title">Notes and Queries</span> 62/3 (2015): 465–467. [1940년 W. D. 라이트홀의 용례 보고]</li>
     <li><span class="ref-author">Foerst, Anne.</span> <span class="ref-title">God in the Machine.</span> Dutton, 2004.</li>
     <li><span class="ref-author">Shatzer, Jacob.</span> <span class="ref-title">Transhumanism and the Image of God.</span> IVP Academic, 2019.</li>
     <li><span class="ref-author">Thacker, Jason.</span> <span class="ref-title">The Age of AI.</span> Zondervan, 2020.</li>
@@ -675,10 +678,10 @@
   <div class="q-num">문제 2</div>
   <div class="q-text">에이다 러브레이스의 반론에 대한 튜링의 재반박 요지는?</div>
   <div class="q-options">
-    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',2,'a','b','러브레이스는 기계가 새 정보를 저장할 수 없다고 주장한 것이 아니라, 스스로 창조할 수 없다고 주장했습니다.')">a. 기계는 새로운 정보를 저장할 수 없다는 반론이 틀렸다고 답했다</button>
-    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',2,'b','b','✓ 정확합니다. 튜링은 학습 알고리즘의 결과가 프로그래머조차 예상하지 못한 것일 수 있다면 러브레이스의 반론이 약화된다고 답했습니다.')">b. 기계가 프로그래머조차 예상 못한 결과를 낼 수 있다면 반론이 약화된다고 답했다</button>
-    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',2,'c','b','튜링은 러브레이스가 완전히 틀렸다고 단정하지 않았습니다.')">c. 러브레이스의 반론이 전적으로 타당하다고 인정했다</button>
-    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',2,'d','b','이것은 튜링의 재반박과 관련이 없습니다.')">d. 기계의 하드웨어 성능이 좋아지면 자연히 해결된다고 답했다</button>
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',2,'a','d','러브레이스는 기계가 새 정보를 저장할 수 없다고 주장한 것이 아니라, 스스로 창조할 수 없다고 주장했습니다.')">a. 기계는 새로운 정보를 저장할 수 없다는 반론이 틀렸다고 답했다</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',2,'b','d','이것은 튜링의 재반박과 관련이 없습니다.')">b. 기계의 하드웨어 성능이 좋아지면 자연히 해결된다고 답했다</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',2,'c','d','튜링은 러브레이스가 완전히 틀렸다고 단정하지 않았습니다.')">c. 러브레이스의 반론이 전적으로 타당하다고 인정했다</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',2,'d','d','✓ 정확합니다. 튜링은 학습 알고리즘의 결과가 프로그래머조차 예상하지 못한 것일 수 있다면 러브레이스의 반론이 약화된다고 답했습니다.')">d. 기계가 프로그래머조차 예상 못한 결과를 낼 수 있다면 반론이 약화된다고 답했다</button>
   </div>
 </div>
 
@@ -686,10 +689,10 @@
   <div class="q-num">문제 3</div>
   <div class="q-text">설의 중국어 방 논증의 핵심 주장은?</div>
   <div class="q-options">
-    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',3,'a','b','논증은 특정 언어의 난이도를 다루지 않습니다.')">a. 중국어는 컴퓨터가 번역하기 가장 어려운 언어다</button>
-    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',3,'b','b','✓ 정확합니다. 규칙에 따른 기호 조작(구문론)만으로는 의미 이해(의미론)에 도달할 수 없다는 것이 핵심입니다.')">b. 구문론(기호 조작)만으로는 의미론(이해)에 도달할 수 없다</button>
-    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',3,'c','b','이 논증은 다국어 능력에 관한 것이 아닙니다.')">c. 다국어를 구사하는 AI가 단일 언어 AI보다 더 지능적이다</button>
-    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',3,'d','b','설은 오히려 강한 AI 가설에 회의적입니다.')">d. 컴퓨터도 결국 사람처럼 진정한 이해에 도달한다</button>
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',3,'a','a','✓ 정확합니다. 규칙에 따른 기호 조작(구문론)만으로는 의미 이해(의미론)에 도달할 수 없다는 것이 핵심입니다.')">a. 구문론(기호 조작)만으로는 의미론(이해)에 도달할 수 없다</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',3,'b','a','논증은 특정 언어의 난이도를 다루지 않습니다.')">b. 중국어는 컴퓨터가 번역하기 가장 어려운 언어다</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',3,'c','a','이 논증은 다국어 능력에 관한 것이 아닙니다.')">c. 다국어를 구사하는 AI가 단일 언어 AI보다 더 지능적이다</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',3,'d','a','설은 오히려 강한 AI 가설에 회의적입니다.')">d. 컴퓨터도 결국 사람처럼 진정한 이해에 도달한다</button>
   </div>
 </div>
 
@@ -697,10 +700,10 @@
   <div class="q-num">문제 4</div>
   <div class="q-text">차머스가 말하는 의식의 '어려운 문제'란?</div>
   <div class="q-options">
-    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',4,'a','b','주의나 기억 같은 기능 설명은 오히려 &quot;쉬운 문제&quot;에 해당합니다.')">a. 뇌가 어떻게 기억을 저장하는지 설명하는 문제</button>
-    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',4,'b','b','✓ 정확합니다. 왜 물리적·기능적 정보 처리에 주관적 경험(감각질)이 동반되는지를 설명하는 문제입니다.')">b. 왜 물리적 정보 처리에 주관적 경험(감각질)이 동반되는지 설명하는 문제</button>
-    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',4,'c','b','계산 속도의 한계는 &quot;어려운 문제&quot;가 아닙니다.')">c. 컴퓨터의 계산 속도가 뇌를 능가하지 못하는 이유를 설명하는 문제</button>
-    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',4,'d','b','데이터 저장 용량은 이 문제와 무관합니다.')">d. AI의 데이터 저장 용량을 늘리는 기술적 난제</button>
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',4,'a','c','주의나 기억 같은 기능 설명은 오히려 &quot;쉬운 문제&quot;에 해당합니다.')">a. 뇌가 어떻게 기억을 저장하는지 설명하는 문제</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',4,'b','c','계산 속도의 한계는 &quot;어려운 문제&quot;가 아닙니다.')">b. 컴퓨터의 계산 속도가 뇌를 능가하지 못하는 이유를 설명하는 문제</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',4,'c','c','✓ 정확합니다. 왜 물리적·기능적 정보 처리에 주관적 경험(감각질)이 동반되는지를 설명하는 문제입니다.')">c. 왜 물리적 정보 처리에 주관적 경험(감각질)이 동반되는지 설명하는 문제</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',4,'d','c','데이터 저장 용량은 이 문제와 무관합니다.')">d. AI의 데이터 저장 용량을 늘리는 기술적 난제</button>
   </div>
 </div>
 
@@ -717,12 +720,12 @@
 
 <div class="quiz-card">
   <div class="q-num">문제 6</div>
-  <div class="q-text"><span class="heb">צֶלֶם</span>(첼렘)이 고대근동에서 원래 가졌던 의미와, 창세기 1장이 이를 재해석한 방식은?</div>
+  <div class="q-text">고대근동에서 '신의 형상'이라는 표현이 원래 쓰이던 방식과, 창세기 1장이 이를 재해석한 방식은?</div>
   <div class="q-options">
-    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',6,'a','b','첼렘은 예술 용어가 아니라 정치적·종교적 왕권 용어였습니다.')">a. 원래 예술 작품을 가리키는 말이었고, 창세기는 이를 미학적으로 사용했다</button>
-    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',6,'b','b','✓ 정확합니다. 첼렘은 원래 왕만이 신의 형상이라는 고대근동의 왕권 칭호였는데, 창세기 1장은 이를 모든 인간에게 민주화합니다.')">b. 원래 왕의 칭호였고, 창세기는 이를 모든 인간에게 민주화했다</button>
-    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',6,'c','b','첼렘은 사제 계급만을 위한 용어가 아니었습니다.')">c. 원래 사제 계급의 신분 증표였고, 창세기는 이를 그대로 유지했다</button>
-    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',6,'d','b','텔 페케리예 비문은 정반대로 첼렘의 정치적 용례를 확인해줍니다.')">d. 원래부터 모든 사람을 가리키는 보편적 용어였다</button>
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',6,'a','a','✓ 정확합니다. 고대근동에서 ‘신의 형상’이라는 표현은 무엇보다 왕을 가리키는 칭호였는데, 창세기 1장은 이를 모든 인간에게 민주화합니다.')">a. 원래 왕을 가리키는 칭호였고, 창세기는 이를 모든 인간에게 민주화했다</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',6,'b','a','첼렘의 기본 뜻이 조각상·형상이기는 하지만, 고대근동에서 ‘신의 형상’이라는 표현은 무엇보다 왕을 가리키는 칭호였고 창세기도 이를 미학적 의미로 쓰지 않습니다.')">b. 원래 예술 작품을 가리키는 말이었고, 창세기는 이를 미학적으로 사용했다</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',6,'c','a','고대근동에서 ‘신의 형상’은 사제 계급의 신분 증표가 아니라 무엇보다 왕을 가리키는 칭호였습니다.')">c. 원래 사제 계급의 신분 증표였고, 창세기는 이를 그대로 유지했다</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',6,'d','a','고대근동에서 ‘신의 형상’이라는 표현은 모든 사람이 아니라 무엇보다 왕을 가리켰습니다. 이를 모든 인간에게 넓힌 것이 창세기 1장입니다.')">d. 원래부터 모든 사람을 가리키는 보편적 용어였다</button>
   </div>
 </div>
 
@@ -730,10 +733,10 @@
   <div class="q-num">문제 7</div>
   <div class="q-text">형상론 4해석 중 '관계적 해석'을 대표하는 신학자는?</div>
   <div class="q-options">
-    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',7,'a','b','아우구스티누스와 아퀴나스는 구조적 해석의 대표자입니다.')">a. 아우구스티누스, 아퀴나스</button>
-    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',7,'b','b','✓ 정확합니다. 칼 바르트와 에밀 브루너는 형상을 관계 자체로 이해하는 관계적 해석의 대표자입니다.')">b. 칼 바르트, 에밀 브루너</button>
-    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',7,'c','b','미들턴은 기능적·왕적 대리 해석과 ANE 배경 연구의 대표자입니다.')">c. 리처드 미들턴</button>
-    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',7,'d','b','존 쿠퍼는 영혼론(전인적 이원론)의 대표자입니다.')">d. 존 쿠퍼</button>
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',7,'a','d','아우구스티누스와 아퀴나스는 구조적 해석의 대표자입니다.')">a. 아우구스티누스, 아퀴나스</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',7,'b','d','존 쿠퍼는 영혼론(전인적 이원론)의 대표자입니다.')">b. 존 쿠퍼</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',7,'c','d','미들턴은 기능적·왕적 대리 해석과 ANE 배경 연구의 대표자입니다.')">c. 리처드 미들턴</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',7,'d','d','✓ 정확합니다. 칼 바르트와 에밀 브루너는 형상을 관계 자체로 이해하는 관계적 해석의 대표자입니다.')">d. 칼 바르트, 에밀 브루너</button>
   </div>
 </div>
 
@@ -741,21 +744,21 @@
   <div class="q-num">문제 8</div>
   <div class="q-text">노린 허츠펠드의 『In Our Image』핵심 논지는?</div>
   <div class="q-options">
-    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',8,'a','b','허츠펠드는 AI가 자동으로 형상을 갖는다고 주장하지 않습니다.')">a. AI는 인간과 동일하게 하나님의 형상을 지닌다</button>
-    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',8,'b','b','✓ 정확합니다. 사람이 AI를 자기 형상대로 만들었다는 사실 자체가 인간이 스스로를 무엇이라 이해하는지를 비추는 거울이 된다는 것이 핵심입니다.')">b. 사람이 AI를 '자기 형상대로' 만들었다는 사실이 인간의 자기이해를 비추는 거울이 된다</button>
-    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',8,'c','b','허츠펠드는 형상론과 AI 논의를 무관하다고 보지 않습니다.')">c. 형상론은 AI 논의와 무관한 별개의 주제다</button>
-    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',8,'d','b','허츠펠드는 관계적 해석에서는 AI가 후보가 될 수 없다고 봅니다.')">d. 모든 해석에서 AI는 형상의 후보가 될 수 없다</button>
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',8,'a','c','허츠펠드는 AI가 자동으로 형상을 갖는다고 주장하지 않습니다.')">a. AI는 인간과 동일하게 하나님의 형상을 지닌다</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',8,'b','c','허츠펠드는 형상론과 AI 논의를 무관하다고 보지 않습니다.')">b. 형상론은 AI 논의와 무관한 별개의 주제다</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',8,'c','c','✓ 정확합니다. 사람이 AI를 자기 형상대로 만들었다는 사실 자체가 인간이 스스로를 무엇이라 이해하는지를 비추는 거울이 된다는 것이 핵심입니다.')">c. 사람이 AI를 '자기 형상대로' 만들었다는 사실이 인간의 자기이해를 비추는 거울이 된다</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',8,'d','c','허츠펠드는 관계적 해석에서는 AI가 후보가 될 수 없다고 봅니다.')">d. 모든 해석에서 AI는 형상의 후보가 될 수 없다</button>
   </div>
 </div>
 
 <div class="quiz-card">
   <div class="q-num">문제 9</div>
-  <div class="q-text">줄리언 헉슬리가 '트랜스휴머니즘'이라는 용어를 처음 사용한 연도는?</div>
+  <div class="q-text">줄리언 헉슬리가 같은 제목의 에세이로 '트랜스휴머니즘'이라는 용어를 널리 알린 연도는?</div>
   <div class="q-options">
-    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',9,'a','b','1998년은 세계트랜스휴머니스트협회(WTA) 창설 연도입니다.')">a. 1998년</button>
-    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',9,'b','b','✓ 정확합니다. 줄리언 헉슬리가 1957년 이 용어를 처음 사용했습니다.')">b. 1957년</button>
-    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',9,'c','b','2005년은 커즈와일의 『특이점이 온다』 출간 연도입니다.')">c. 2005년</button>
-    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',9,'d','b','2014년은 보스트롬의 『슈퍼인텔리전스』 출간 연도입니다.')">d. 2014년</button>
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',9,'a','a','✓ 정확합니다. 줄리언 헉슬리는 1957년 에세이 「Transhumanism」으로 이 용어를 대중화했습니다. 다만 처음 쓴 것은 아니며, 단어 자체는 1940년 W. D. 라이트홀의 글에 이미 보입니다.')">a. 1957년</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',9,'b','a','1998년은 세계트랜스휴머니스트협회(WTA) 창설 연도입니다.')">b. 1998년</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',9,'c','a','2005년은 커즈와일의 『특이점이 온다』 출간 연도입니다.')">c. 2005년</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',9,'d','a','2014년은 보스트롬의 『슈퍼인텔리전스』 출간 연도입니다.')">d. 2014년</button>
   </div>
 </div>
 
@@ -774,10 +777,10 @@
   <div class="q-num">문제 11</div>
   <div class="q-text">「Antiqua et Nova」(2025)를 공동 발표한 두 기관은?</div>
   <div class="q-options">
-    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',11,'a','b','ERLC는 미국 남침례교의 별도 기관으로, 이 문서와 별개입니다.')">a. ERLC와 Rome Call 위원회</button>
-    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',11,'b','b','✓ 정확합니다. 신앙교리부와 문화교육부가 공동으로 발표했습니다.')">b. 신앙교리부(DDF)와 문화교육부</button>
-    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',11,'c','b','교황청 생명학술원은 2020년 Rome Call의 주체입니다.')">c. 교황청 생명학술원과 세계경제포럼</button>
-    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',11,'d','b','유엔은 이 문서의 발표 주체가 아닙니다.')">d. 유엔 AI 자문기구와 바티칸 재무원</button>
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',11,'a','d','ERLC는 미국 남침례교의 별도 기관으로, 이 문서와 별개입니다.')">a. ERLC와 Rome Call 위원회</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',11,'b','d','유엔은 이 문서의 발표 주체가 아닙니다.')">b. 유엔 AI 자문기구와 바티칸 재무원</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',11,'c','d','교황청 생명학술원은 2020년 Rome Call의 주체입니다.')">c. 교황청 생명학술원과 세계경제포럼</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',11,'d','d','✓ 정확합니다. 신앙교리부와 문화교육부가 공동으로 발표했습니다.')">d. 신앙교리부(DDF)와 문화교육부</button>
   </div>
 </div>
 
@@ -785,10 +788,10 @@
   <div class="q-num">문제 12</div>
   <div class="q-text">「Magnifica Humanitas」의 "AI를 무장해제한다"는 요청이 의미하는 것은?</div>
   <div class="q-options">
-    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',12,'a','b','회칙은 기술 자체를 거부하라고 요청하지 않습니다.')">a. 모든 AI 기술의 개발과 사용을 전면 중단하라는 요청</button>
-    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',12,'b','b','✓ 정확합니다. 회칙은 기술적 힘이 자동으로 통치할 권리를 부여한다는 전제를 무너뜨리고, 기술이 인간을 지배하지 못하게 막는 것이 &quot;무장해제&quot;의 의미라고 밝힙니다.')">b. 기술적 힘이 자동으로 통치할 권리를 부여한다는 전제를 무너뜨리고, 기술이 인간을 지배하지 못하게 막는 것</button>
-    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',12,'c','b','이 요청은 특정 국가를 지목하지 않습니다.')">c. 특정 국가의 AI 개발만을 제한하라는 외교적 요청</button>
-    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',12,'d','b','이 표현은 물리적 무기 감축을 직접 지칭하는 것이 아니라 기술 지배력 전반에 대한 비유입니다.')">d. AI 관련 국제 군비 조약을 즉시 체결하라는 구체적 정책 제안</button>
+    <button class="q-opt" data-val="a" onclick="answerQuiz('s16',12,'a','c','회칙은 기술 자체를 거부하라고 요청하지 않습니다.')">a. 모든 AI 기술의 개발과 사용을 전면 중단하라는 요청</button>
+    <button class="q-opt" data-val="b" onclick="answerQuiz('s16',12,'b','c','이 요청은 특정 국가를 지목하지 않습니다.')">b. 특정 국가의 AI 개발만을 제한하라는 외교적 요청</button>
+    <button class="q-opt" data-val="c" onclick="answerQuiz('s16',12,'c','c','✓ 정확합니다. 회칙은 기술적 힘이 자동으로 통치할 권리를 부여한다는 전제를 무너뜨리고, 기술이 인간을 지배하지 못하게 막는 것이 &quot;무장해제&quot;의 의미라고 밝힙니다.')">c. 기술적 힘이 자동으로 통치할 권리를 부여한다는 전제를 무너뜨리고, 기술이 인간을 지배하지 못하게 막는 것</button>
+    <button class="q-opt" data-val="d" onclick="answerQuiz('s16',12,'d','c','이 표현은 물리적 무기 감축을 직접 지칭하는 것이 아니라 기술 지배력 전반에 대한 비유입니다.')">d. AI 관련 국제 군비 조약을 즉시 체결하라는 구체적 정책 제안</button>
   </div>
 </div>
 
@@ -810,10 +813,11 @@ function setActive(a){
 }
 
 function switchTab(sectionId,panelId,btn){
-  const sec=document.getElementById(sectionId);
-  sec.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  sec.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById(panelId).classList.add('active');
+  // 같은 탭 묶음(버튼 줄의 버튼들 + 대상 패널의 형제 패널)만 전환 — 탭 안의 탭(S0)의 선택이 지워지지 않게 범위를 한정
+  const panel=document.getElementById(panelId);
+  btn.parentElement.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  Array.from(panel.parentElement.children).forEach(p=>{if(p.classList.contains('tab-panel')) p.classList.remove('active');});
+  panel.classList.add('active');
   btn.classList.add('active');
 }
 
