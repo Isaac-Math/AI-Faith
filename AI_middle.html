@@ -36,7 +36,7 @@
     --bg: #f9fafb;
     --card: #ffffff;
     --text: #1a1a2e;
-    --muted: #6c757d;
+    --muted: #5c636a;
     --border: #dee2e6;
     --radius: 12px;
     --shadow: 0 2px 12px rgba(0,0,0,0.08);
@@ -168,11 +168,17 @@
     .position-grid { grid-template-columns: 1fr; }
     .person-grid { grid-template-columns: 1fr; }
   }
+  /* 상단 바: 알약 버튼은 한 줄로 유지하고, 경로 문구는 좁은 화면에서 숨긴다 */
+  .top-bar a { white-space: nowrap; flex-shrink: 0; }
+  .top-bar > span:last-child { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @media (max-width: 480px) { .top-bar > span:nth-last-child(-n+2) { display: none; } }
+  /* nav로 이동했을 때 섹션 제목이 고정 nav 밑에 가리지 않게 */
+  section[id] { scroll-margin-top: 60px; }
 </style>
 </head>
 <body>
 
-<div style="background:#14213d;padding:10px 20px;display:flex;align-items:center;gap:10px;">
+<div class="top-bar" style="background:#14213d;padding:10px 20px;display:flex;align-items:center;gap:10px;">
   <a href="https://faithreason.kr/Faith_Reason/" style="color:#fff;text-decoration:none;font-size:.83rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:4px 12px;">← 전체 시리즈</a>
   <span style="color:rgba(255,255,255,.35);font-size:.8rem;">|</span>
   <a href="index.html" style="color:#fff;text-decoration:none;font-size:.83rem;font-weight:600;
@@ -205,7 +211,7 @@
 
 <!-- S0 우리 곁의 AI -->
 <section id="s0" class="section">
-<div class="section-title">🤖 우리 곁의 AI</div>
+<h2 class="section-title">🤖 우리 곁의 AI</h2>
 <p class="section-sub">AI는 먼 미래의 로봇이 아닙니다. 오늘 하루를 돌아보면 이미 곳곳에 있습니다.</p>
 <div class="tab-bar">
   <button class="tab-btn active" onclick="switchTab('s0','s0t1',this)">🌅 아침</button>
@@ -237,7 +243,7 @@
 
 <!-- S1 AI는 어떻게 배울까 -->
 <section id="s1" class="section">
-<div class="section-title">🧮 AI는 어떻게 배울까</div>
+<h2 class="section-title">🧮 AI는 어떻게 배울까</h2>
 <p class="section-sub">챗봇은 정말 '이해'하고 대답하는 걸까요, 아니면 다른 방식으로 작동하는 걸까요?</p>
 <div class="card">
   <p style="font-weight:700;color:var(--ai);margin-bottom:10px;">초대형 '다음 단어 맞히기' 게임</p>
@@ -266,7 +272,7 @@
 
 <!-- S2 AI도 생각하고 느낄까 -->
 <section id="s2" class="section">
-<div class="section-title">💭 AI도 생각하고 느낄까</div>
+<h2 class="section-title">💭 AI도 생각하고 느낄까</h2>
 <p class="section-sub">1950년의 오래된 질문 하나가 오늘 다시 중요해졌습니다.</p>
 <div class="card">
   <p style="font-weight:700;color:var(--ai);margin-bottom:10px;">튜링 테스트 이야기</p>
@@ -307,7 +313,7 @@
 
 <!-- S3 사람은 무엇이 특별할까 -->
 <section id="s3" class="section">
-<div class="section-title">👑 사람은 무엇이 특별할까</div>
+<h2 class="section-title">👑 사람은 무엇이 특별할까</h2>
 <p class="section-sub">창세기는 사람이 "하나님의 형상대로" 지음받았다고 말합니다. 이것은 무엇을 뜻할까요?</p>
 <div class="card">
   <p>"하나님이 이르시되 우리의 형상을 따라 우리의 모양대로 우리가 사람을 만들고..."(창세기 1:26-27) 여기서 '형상'은 외모를 뜻하지 않습니다. 하나님은 몸이 없으신 영이시기 때문입니다. 대신 사람이 하나님을 닮은 네 가지 측면을 살펴봅니다.</p>
@@ -345,7 +351,7 @@
 
 <!-- S4 영혼이 뭘까 -->
 <section id="s4" class="section">
-<div class="section-title">🌬️ 영혼이 뭘까</div>
+<h2 class="section-title">🌬️ 영혼이 뭘까</h2>
 <p class="section-sub">사람은 몸과 영혼으로 이루어진 신비로운 존재입니다. 성경은 이를 어떻게 설명할까요?</p>
 <div class="card">
   <p style="font-weight:700;color:var(--ai);margin-bottom:10px;">흙 + 하나님의 숨 = 산 존재</p>
@@ -359,7 +365,7 @@
 
 <!-- S5 AI 친구? -->
 <section id="s5" class="section">
-<div class="section-title">💬 AI 친구?</div>
+<h2 class="section-title">💬 AI 친구?</h2>
 <p class="section-sub">AI 챗봇과 대화하는 것, 진짜 우정과 어떻게 다를까요?</p>
 <div class="flip-grid">
   <div class="flip-card" onclick="flipCard(this)">
@@ -389,7 +395,7 @@
 
 <!-- S6 슈퍼휴먼의 꿈 -->
 <section id="s6" class="section">
-<div class="section-title">🦾 슈퍼휴먼의 꿈</div>
+<h2 class="section-title">🦾 슈퍼휴먼의 꿈</h2>
 <p class="section-sub">더 똑똑한 뇌, 안 늙는 몸, 컴퓨터에 복사된 마음 — 이런 꿈을 '트랜스휴머니즘'이라고 부릅니다.</p>
 <div class="card">
   <p>기술로 인간의 한계(질병, 노화, 죽음)를 뛰어넘으려는 생각을 <strong>트랜스휴머니즘</strong>이라고 합니다. 뇌에 칩을 심어 기억력을 높이거나, 노화를 막는 약을 개발하거나, 언젠가 내 생각과 기억을 컴퓨터에 옮겨 '영원히 사는' 상상까지 등장합니다.</p>
@@ -412,7 +418,7 @@
 
 <!-- S7 지혜롭게 쓰기 -->
 <section id="s7" class="section">
-<div class="section-title">🧭 지혜롭게 쓰기</div>
+<h2 class="section-title">🧭 지혜롭게 쓰기</h2>
 <p class="section-sub">AI를 무조건 피할 수도, 무조건 의존할 수도 없습니다. 청지기처럼 지혜롭게 사용하는 법을 살펴봅니다.</p>
 <div class="card">
   <p>하나님은 사람에게 세상을 돌보고 다스리는 '청지기'의 역할을 맡기셨습니다(창 1:28). AI 같은 새로운 기술도 이 청지기 원칙 아래서 사용해야 합니다. 실제로 2025년 교황청은 「Antiqua et Nova」라는 문서를 통해 AI를 지혜롭게 다루는 원칙을 발표했고, 2026년 레오 14세 교황은 AI를 주제로 한 첫 회칙 「Magnifica Humanitas」를 펴냈습니다.</p>
@@ -438,7 +444,7 @@
 
 <!-- S8 인물 카드 + 퀴즈 -->
 <section id="s8" class="section">
-<div class="section-title">🌟 인물 카드</div>
+<h2 class="section-title">🌟 인물 카드</h2>
 <p class="section-sub">AI와 신앙의 대화에 등장하는 네 인물을 소개합니다.</p>
 <div class="person-grid">
   <div class="person-card">
@@ -474,7 +480,7 @@
 
 <!-- S9 퀴즈 -->
 <section id="s9" class="section">
-<div class="section-title">❓ 확인 퀴즈</div>
+<h2 class="section-title">❓ 확인 퀴즈</h2>
 <p class="section-sub">10문제로 오늘 배운 내용을 점검해 보세요.</p>
 
 <div class="quiz-card" id="q1">
@@ -692,12 +698,21 @@ window.addEventListener('scroll', () => {
     const h = a.getAttribute('href');
     if (h && h.charAt(0) === '#') map[h.slice(1)] = a;
   });
+  // 현재 섹션의 링크가 nav 화면 밖에 있으면 nav만 가로로 움직여 보이게 한다(페이지 세로 스크롤은 건드리지 않음)
+  function showInNav(a) {
+    let box = a.parentElement;
+    while (box && box !== document.body && !(/(auto|scroll)/.test(getComputedStyle(box).overflowX) && box.scrollWidth > box.clientWidth + 1)) box = box.parentElement;
+    if (!box || box === document.body) return;
+    const r = a.getBoundingClientRect(), b = box.getBoundingClientRect();
+    if (r.left < b.left + 8 || r.right > b.right - 8) box.scrollLeft += (r.left - b.left) - (b.width - r.width) / 2;
+  }
   if (!('IntersectionObserver' in window)) return;
   const obs = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (e.isIntersecting && map[e.target.id]) {
         navLinks.forEach(function (a) { a.classList.remove('active'); });
         map[e.target.id].classList.add('active');
+        showInNav(map[e.target.id]);
       }
     });
   }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });

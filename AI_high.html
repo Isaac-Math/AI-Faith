@@ -30,7 +30,7 @@
 <style>
   :root {
     --ai:#274c77; --ai-dark:#14213d; --ai-light:#6096ba; --ai-xlight:#e1ecf7;
-    --bg:#f9fafb; --card:#ffffff; --text:#1a1a2e; --muted:#6c757d;
+    --bg:#f9fafb; --card:#ffffff; --text:#1a1a2e; --muted:#5c636a;
     --border:#dee2e6; --radius:12px; --shadow:0 2px 12px rgba(0,0,0,0.08);
   }
   *{box-sizing:border-box;margin:0;padding:0;}
@@ -136,11 +136,17 @@
     .tl-item{flex-direction:column;gap:4px;}
     .tl-year{width:auto;}
   }
+  /* 상단 바: 알약 버튼은 한 줄로 유지하고, 경로 문구는 좁은 화면에서 숨긴다 */
+  .top-bar a{white-space:nowrap;flex-shrink:0;}
+  .top-bar>span:last-child{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  @media(max-width:480px){.top-bar>span:nth-last-child(-n+2){display:none;}}
+  /* nav로 이동했을 때 섹션 제목이 고정 nav 밑에 가리지 않게 */
+  section[id]{scroll-margin-top:60px;}
 </style>
 </head>
 <body>
 
-<div style="background:#14213d;padding:10px 20px;display:flex;align-items:center;gap:10px;">
+<div class="top-bar" style="background:#14213d;padding:10px 20px;display:flex;align-items:center;gap:10px;">
   <a href="https://faithreason.kr/Faith_Reason/" style="color:#fff;text-decoration:none;font-size:.83rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:4px 12px;">← 전체 시리즈</a>
   <span style="color:rgba(255,255,255,.35);font-size:.8rem;">|</span>
   <a href="index.html" style="color:#fff;text-decoration:none;font-size:.83rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:16px;padding:4px 12px;">🏠 홈으로</a>
@@ -178,7 +184,7 @@
 
 <!-- S0 도입 -->
 <section id="s0" class="section">
-<div class="section-title">소개 — 왜 지금 AI와 신앙인가</div>
+<h2 class="section-title">소개 — 왜 지금 AI와 신앙인가</h2>
 <p class="section-sub">기술의 이해에서 출발해 철학적 분석, 성경신학, 실천으로 이어지는 순서로 이 자료를 구성했습니다.</p>
 <div class="tab-bar">
   <button class="tab-btn active" onclick="switchTab('s0','s0t1',this)">지형의 변화</button>
@@ -217,7 +223,7 @@
 
 <!-- S1 AI 기술사 -->
 <section id="s1" class="section">
-<div class="section-title">AI 기술사</div>
+<h2 class="section-title">AI 기술사</h2>
 <p class="section-sub">1950년 튜링의 논문부터 오늘의 에이전트 시대까지 — 핵심 이정표를 따라갑니다.</p>
 <div class="card">
 <div class="timeline">
@@ -243,7 +249,7 @@
 
 <!-- S2 지능의 철학 -->
 <section id="s2" class="section">
-<div class="section-title">지능의 철학</div>
+<h2 class="section-title">지능의 철학</h2>
 <p class="section-sub">"기계가 생각할 수 있는가?"라는 질문에 대한 두 고전적 논증을 살펴봅니다.</p>
 <div class="tab-bar">
   <button class="tab-btn active" onclick="switchTab('s2','s2t1',this)">튜링 테스트</button>
@@ -283,7 +289,7 @@
 
 <!-- S3 의식의 난제 -->
 <section id="s3" class="section">
-<div class="section-title">의식이라는 난제</div>
+<h2 class="section-title">의식이라는 난제</h2>
 <p class="section-sub">"왜 정보 처리에는 주관적 경험이 동반되는가?" — 아직 아무도 완전히 답하지 못한 질문입니다.</p>
 <div class="card">
   <p style="font-weight:700;color:var(--ai);margin-bottom:10px;">차머스의 '어려운 문제'(1995)</p>
@@ -308,7 +314,7 @@
 
 <!-- S4 영혼론 스펙트럼 -->
 <section id="s4" class="section">
-<div class="section-title">영혼론 스펙트럼</div>
+<h2 class="section-title">영혼론 스펙트럼</h2>
 <p class="section-sub">인간의 몸과 마음(영혼)의 관계를 보는 다섯 입장 — 카드를 클릭하면 핵심 논거를 볼 수 있습니다.</p>
 <div class="flip-grid">
   <div class="flip-card" onclick="flipCard(this)"><div class="flip-inner">
@@ -339,7 +345,7 @@
 
 <!-- S5 성경적 인간론 -->
 <section id="s5" class="section">
-<div class="section-title">성경적 인간론 — 원문 분석</div>
+<h2 class="section-title">성경적 인간론 — 원문 분석</h2>
 <p class="section-sub">히브리어 원문은 몸과 영혼을 어떻게 그리고 있을까요?</p>
 <div class="card">
   <p style="font-weight:700;color:var(--ai);margin-bottom:10px;">창세기 2:7 — <span class="heb">נֶפֶשׁ חַיָּה</span>(네페쉬 하야)</p>
@@ -374,7 +380,7 @@
 
 <!-- S6 하나님의 형상 -->
 <section id="s6" class="section">
-<div class="section-title">하나님의 형상 (Imago Dei)</div>
+<h2 class="section-title">하나님의 형상 (Imago Dei)</h2>
 <p class="section-sub">네 가지 고전적 해석과, 이 시리즈의 학술적 차별점인 고대근동(ANE) 배경을 살펴봅니다.</p>
 <div class="tab-bar">
   <button class="tab-btn active" onclick="switchTab('s6','s6t1',this)">구조적</button>
@@ -398,7 +404,7 @@
 
 <!-- S7 AI는 하나님의 형상이 될 수 있는가 -->
 <section id="s7" class="section">
-<div class="section-title">AI는 하나님의 형상이 될 수 있는가</div>
+<h2 class="section-title">AI는 하나님의 형상이 될 수 있는가</h2>
 <p class="section-sub">형상론의 네 해석을 AI에 적용하면 결과가 달라집니다.</p>
 <div class="card">
   <p style="font-weight:700;color:var(--ai);margin-bottom:10px;">허츠펠드의 전개 — 해석에 따라 달라지는 답</p>
@@ -424,7 +430,7 @@
 
 <!-- S8 트랜스휴머니즘과 디지털 불멸 -->
 <section id="s8" class="section">
-<div class="section-title">트랜스휴머니즘과 디지털 불멸</div>
+<h2 class="section-title">트랜스휴머니즘과 디지털 불멸</h2>
 <p class="section-sub">기술로 인간의 한계를 극복하려는 사상의 계보와 신학적 평가.</p>
 <div class="card">
 <div class="timeline">
@@ -459,7 +465,7 @@
 
 <!-- S9 교회의 공식 응답 -->
 <section id="s9" class="section">
-<div class="section-title">교회의 공식 응답</div>
+<h2 class="section-title">교회의 공식 응답</h2>
 <p class="section-sub">복음주의 성명서부터 가톨릭 교황의 첫 AI 회칙까지 — 문서 타임라인.</p>
 <div class="card">
 <div class="timeline">
@@ -479,14 +485,14 @@
     <p style="margin-top:10px;"><strong>"무장해제(disarm)" 요청(110항):</strong> <em>"무장해제한다는 것은 기술적 힘이 자동으로 통치할 권리를 부여한다는 전제를 무너뜨리는 것을 의미한다... 무장해제는 기술을 거부하는 것이 아니라, 기술이 인간을 지배하지 못하게 막는 것을 의미한다."</em></p>
     <p style="margin-top:10px;"><strong>한계에 대한 긍정(118항):</strong> <em>"인간은 한계에도 불구하고 번영하는 것이 아니라, 흔히 그 한계를 통해 번영한다."</em> — 트랜스휴머니즘의 한계 극복 서사에 대한 정면 응답.</p>
     <p style="margin-top:10px;"><strong>전쟁과 알고리즘:</strong> "어떤 알고리즘도 전쟁을 도덕적으로 용인되게 만들 수 없다"며, AI 기반 무기가 폭력의 문턱을 낮추고 피해자를 데이터로 환원시키는 위험을 경고합니다(199항 부근).</p>
-    <p style="margin-top:10px;font-size:.85rem;color:var(--muted);">원문: <a href="https://www.vatican.va/content/leo-xiv/en/encyclicals/documents/20260515-magnifica-humanitas.html" target="_blank" style="color:var(--ai);">vatican.va</a></p>
+    <p style="margin-top:10px;font-size:.85rem;color:var(--muted);">원문: <a href="https://www.vatican.va/content/leo-xiv/en/encyclicals/documents/20260515-magnifica-humanitas.html" target="_blank" rel="noopener" style="color:var(--ai);">vatican.va</a></p>
   </div>
 </div>
 </section>
 
 <!-- S10 AI 윤리 각론 -->
 <section id="s10" class="section">
-<div class="section-title">AI 윤리 각론</div>
+<h2 class="section-title">AI 윤리 각론</h2>
 <p class="section-sub">여섯 가지 쟁점과 각각에 대한 신학적 응답.</p>
 <div class="acc-item">
   <button class="acc-btn" onclick="toggleAcc(this)">① 편향(Bias) <span class="arrow">▼</span></button>
@@ -516,7 +522,7 @@
 
 <!-- S11 기술의 신학 -->
 <section id="s11" class="section">
-<div class="section-title">기술의 신학</div>
+<h2 class="section-title">기술의 신학</h2>
 <p class="section-sub">성경의 기술 내러티브와, 청지기 전통·비판 전통 두 흐름을 살펴봅니다.</p>
 <div class="tab-bar">
   <button class="tab-btn active" onclick="switchTab('s11','s11t1',this)">가인의 계보</button>
@@ -538,7 +544,7 @@
 
 <!-- S12 학자 카드 -->
 <section id="s12" class="section">
-<div class="section-title">주요 학자 9인</div>
+<h2 class="section-title">주요 학자 9인</h2>
 <p class="section-sub">이 논의를 이끌어 온 철학자·신학자들을 소개합니다.</p>
 <div class="person-grid">
   <div class="person-card"><div class="person-emoji">🧩</div><div class="person-name">앨런 튜링</div><div class="person-role">1912-1954</div><div class="person-work">"Computing Machinery and Intelligence" (1950)</div><p class="person-desc">컴퓨터 과학의 창시자 중 한 사람. 튜링 테스트를 제안해 기계 지능 논쟁의 출발점을 놓았습니다.</p></div>
@@ -555,7 +561,7 @@
 
 <!-- S13 용어사전 -->
 <section id="s13" class="section">
-<div class="section-title">용어사전</div>
+<h2 class="section-title">용어사전</h2>
 <p class="section-sub">이 자료에서 필수적으로 알아야 할 학술 용어들.</p>
 <div class="card" style="padding:0 28px;">
   <div class="gloss-item" style="padding-top:20px;"><div class="gloss-term">AGI / ASI</div><div class="gloss-orig">Artificial General / Super Intelligence</div><div class="gloss-def">AGI는 인간처럼 모든 영역에서 유연하게 사고하는 가상의 범용 AI. ASI는 모든 영역에서 인간을 능가하는 가상의 초지능.</div></div>
@@ -579,7 +585,7 @@
 
 <!-- S14 토론 논제 -->
 <section id="s14" class="section">
-<div class="section-title">토론 논제</div>
+<h2 class="section-title">토론 논제</h2>
 <p class="section-sub">여섯 개의 열린 논제 — 정답이 없는 질문들과 씨름해 보세요.</p>
 <div class="disc-card"><div class="disc-num">논제 01</div><div class="disc-q">AI가 언젠가 의식을 갖는다면, 교회는 AI를 전도와 구원의 대상으로 여겨야 하는가?</div><div class="disc-hint">형상론의 네 해석(구조적/기능적·왕적/관계적/기독론적) 각각에서 이 질문에 대한 답이 어떻게 달라지는지 논하라.</div></div>
 <div class="disc-card"><div class="disc-num">논제 02</div><div class="disc-q">튜링 테스트 통과는 인격성 인정의 충분조건인가? 중국어 방 논증은 이 질문을 종결시키는가?</div><div class="disc-hint">시스템 반론과 로봇 반론에 대한 설의 재반박을 검토하고, 행동적 기준과 존재론적 기준의 관계를 논하라.</div></div>
@@ -591,7 +597,7 @@
 
 <!-- S15 레퍼런스 -->
 <section id="s15" class="section">
-<div class="section-title">학술 레퍼런스</div>
+<h2 class="section-title">학술 레퍼런스</h2>
 <p class="section-sub">이 자료가 참고한 주요 문헌 목록입니다.</p>
 <div class="acc-item">
   <button class="acc-btn" onclick="toggleAcc(this)">고전 논문 <span class="arrow">▼</span></button>
@@ -660,7 +666,7 @@
 
 <!-- S16 퀴즈 -->
 <section id="s16" class="section">
-<div class="section-title">퀴즈</div>
+<h2 class="section-title">퀴즈</h2>
 <p class="section-sub">12문항 — 학습한 내용을 점검해보세요.</p>
 
 <div class="quiz-card">
@@ -899,12 +905,21 @@ window.addEventListener('scroll',()=>{
     const h = a.getAttribute('href');
     if (h && h.charAt(0) === '#') map[h.slice(1)] = a;
   });
+  // 현재 섹션의 링크가 nav 화면 밖에 있으면 nav만 가로로 움직여 보이게 한다(페이지 세로 스크롤은 건드리지 않음)
+  function showInNav(a) {
+    let box = a.parentElement;
+    while (box && box !== document.body && !(/(auto|scroll)/.test(getComputedStyle(box).overflowX) && box.scrollWidth > box.clientWidth + 1)) box = box.parentElement;
+    if (!box || box === document.body) return;
+    const r = a.getBoundingClientRect(), b = box.getBoundingClientRect();
+    if (r.left < b.left + 8 || r.right > b.right - 8) box.scrollLeft += (r.left - b.left) - (b.width - r.width) / 2;
+  }
   if (!('IntersectionObserver' in window)) return;
   const obs = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (e.isIntersecting && map[e.target.id]) {
         navLinks.forEach(function (a) { a.classList.remove('active'); });
         map[e.target.id].classList.add('active');
+        showInNav(map[e.target.id]);
       }
     });
   }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
